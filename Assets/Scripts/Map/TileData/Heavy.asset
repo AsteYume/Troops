@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3378952ada27d614e9456cacd491eb93, type: 3}
+  m_Name: Heavy
+  m_EditorClassIdentifier: Assembly-CSharp::MapTileSO
+  _tileType: 2
+  _tilePrefab: {fileID: 3408730228697215325, guid: 36e3b59f4abd712439edb8219bafbcfb, type: 3}
+  _moveCost: 3
+  _sightCost: 4
+  _armor: 3
+  _canPass: 1
+  _canPierce: 0
+  _canStay: 1
+  _canDestroy: 0
+  _destroyResult: 1

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3378952ada27d614e9456cacd491eb93, type: 3}
+  m_Name: Block
+  m_EditorClassIdentifier: Assembly-CSharp::MapTileSO
+  _tileType: 3
+  _tilePrefab: {fileID: 1133217835956118863, guid: 0ac9ff1d696329e4fa23998d49b9ab32, type: 3}
+  _moveCost: 99
+  _sightCost: 99
+  _armor: 4
+  _canPass: 0
+  _canPierce: 0
+  _canStay: 0
+  _canDestroy: 0
+  _destroyResult: 3
