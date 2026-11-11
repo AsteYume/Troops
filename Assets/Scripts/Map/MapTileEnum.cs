@@ -4,6 +4,6 @@ public enum MapTileEnum
     Plain = 0,
     Light = 1,
     Heavy = 2,
-    Solid = 3,
-    Water = 11
+    Block = 3,
+    Water = 9
 }

@@ -1,7 +1,7 @@
 public enum MapSizeEnum
 {
     None = -1,
-    Small,
-    Medium,
-    Large,
+    Small = 16,
+    Medium = 32,
+    Large = 48,
 }
