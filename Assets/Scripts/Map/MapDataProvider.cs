@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 public class MapDataProvider : MonoBehaviour
 {
     [SerializeField] private List<MapTileSO> _tileSo;
     [SerializeField] private TextAsset _mapData1;
-    
-    private Queue<PriorityValue> _searchQueue;
-    private Dictionary<int[,], int> _searchDictionary;
-    private List<int[,]> _searchTilesInRange;
+
+    private Dictionary<Vector2Int, int> _moveLogDictionary;
+    private PriorityQueue<Vector2Int> _priorityQueue;
     
     private Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
     private MapTileEnum[,] _mapTileArray;
@@ -82,83 +82,72 @@ public class MapDataProvider : MonoBehaviour
     }
     
     // =============================
-    
-    
-    
-    
 
-    public List<int[,]> GetMoveRange(int x, int z, int movement)
+    private List<int[,]> GetMoveRange(int x, int z, int movement)
     {
-        _searchQueue = new Queue<PriorityValue>();
-        _searchDictionary = new Dictionary<int[,], int>();
-        Queue<int[,]> moveQueue = new();
-        _searchTilesInRange = new();
-        PriorityValue val = new PriorityValue(x, z, 0, 0, moveQueue);
-        SearchTile(val, movement);
-        return _searchTilesInRange;
+        List<int[,]> moveableList = new List<int[,]>();
+        _moveLogDictionary = new Dictionary<Vector2Int, int>();
+        Queue<int[,]> moveQueue = new Queue<int[,]>();
+        HashSet<int[,]> moveLog =  new HashSet<int[,]>();
+        MoveValue start = new MoveValue(x,z,movement,0,moveQueue, moveLog);
+        
+        
+        return moveableList;
     }
 
-    private void SearchTile(PriorityValue val, int movement)
+
+    private void CheckAdjacency(MoveValue val)
     {
-        PriorityValue north = Adjacency(val, DirectionEnum.North);
-        PriorityValue south = Adjacency(val, DirectionEnum.South);
-        PriorityValue east = Adjacency(val, DirectionEnum.East);
-        PriorityValue west = Adjacency(val, DirectionEnum.West);
-        
-        if (IsTileValid(north)&&TryMoveTile(north, movement, out PriorityValue northResult))
-        {
-            
-        }
-        if (IsTileValid(south)&&TryMoveTile(south, movement, out PriorityValue southResult))
-        {
-            
-        }
-        if (IsTileValid(east)&&TryMoveTile(east, movement, out PriorityValue eastResult))
-        {
-            
-        }
-        if (IsTileValid(west)&&TryMoveTile(west, movement, out PriorityValue westResult))
-        {
-            
-        }
-        
+        MoveValue north = Adjacency(val,  DirectionEnum.North);
+        MoveValue south = Adjacency(val,  DirectionEnum.South);
+        MoveValue east = Adjacency(val,  DirectionEnum.East);
+        MoveValue west = Adjacency(val,  DirectionEnum.West);
+
         
         
     }
+
+    private bool TryAddQueue(MoveValue val)
+    {
+        Vector2Int grid = new Vector2Int(val.X, val.Z);
+        int cost = val.MoveCost;
+        if (_moveLogDictionary.ContainsKey(grid))
+        {
+            
+            
+            
+        }
+
+        return false;// 지워
+    }
+
+
+
+    private bool TryAddMoveQueue(MoveValue val)
+    {
+        if (!CheckTileExists(val)) return false;
+        if (!IsMoveCostEnough(val,out int cost)) return false;
+
+
+        return true; // 지워
+    }
     
-    /// <summary>
-    /// 해당 타일이 존재하는지 확인
-    /// </summary>
-    /// <param name="val">좌표</param>
-    /// <returns>존재 여부</returns>
-    private bool IsTileValid(PriorityValue val)
+
+    private bool CheckTileExists(MoveValue val)
     {
         return (val.X >= 0 && val.X < MapSize && val.Z >= 0 && val.Z < MapSize);
     }
-    
-    /// <summary>
-    /// 해당 타일로 이동 가능한지 확인
-    /// </summary>
-    /// <param name="val">좌표,누적 이동비용</param>
-    /// <param name="movement">이동력</param>
-    /// <param name="result">좌표, 누적 이동비용</param>
-    /// <returns>이동 가능 여부</returns>
-    private bool TryMoveTile(PriorityValue val, int movement, out PriorityValue result)
-    {
-        result = val;
-        result.MoveCost = _tileArray[val.X, val.Z].MoveCost + val.MoveCost;
-        return movement >= result.MoveCost;
-    }
 
-    /// <summary>
-    /// 해당 방향으로 인접한 좌표
-    /// </summary>
-    /// <param name="val">기준 좌표</param>
-    /// <param name="direction">방향</param>
-    /// <returns>목표 좌표</returns>
-    private PriorityValue Adjacency(PriorityValue val, DirectionEnum direction)
+    private bool IsMoveCostEnough(MoveValue val, out int cost)
     {
-        PriorityValue temp = val;
+        cost = _tileArray[val.X, val.Z].MoveCost + val.MoveCost;
+        return (val.Movement >= cost);
+    }
+    
+
+    private MoveValue Adjacency(MoveValue val, DirectionEnum direction)
+    {
+        MoveValue temp = val;
         switch (direction)
         {
             case DirectionEnum.East:
@@ -176,7 +165,6 @@ public class MapDataProvider : MonoBehaviour
         }
         return temp;
     }
-    
     
     
 }
