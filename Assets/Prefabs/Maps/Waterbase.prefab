@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2741359212994129749}
   - component: {fileID: 3214803142213000112}
   - component: {fileID: 3350788487076355618}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8108442100539642849}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Waterbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
