@@ -48,8 +48,21 @@ public class MapDataProvider : MonoBehaviour
     {
         _tileArray[x,z] = SetTileInstance(obj, tileEnum);
     }
+
+    public bool TryGetTile(int x, int z, out Tile tile)
+    {
+        int horizontal = Mathf.Clamp(x, 0, MapSize - 1);
+        int vertical = Mathf.Clamp(z, 0, MapSize - 1);
+        Debug.Log($"{horizontal},{vertical}");
+        Debug.Log(_tileArray);
+        tile = _tileArray[horizontal,vertical];
+        Debug.Log(_tileArray[horizontal,vertical]);
+        Debug.Log(tile);
+        Debug.Log($"대상 타일 {tile.MoveCost}");
+        return (x==horizontal&& z==vertical);
+    }
     
-    public void ReadData(TextAsset mapData)
+    private void ReadData(TextAsset mapData)
     {
         string[] lines = mapData.text.Split('\n');
 

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8216928493285427704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8950545829100670487}
+  - component: {fileID: 4645572804414455204}
+  - component: {fileID: 8717270297334257880}
+  - component: {fileID: 4055995883600673780}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8950545829100670487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216928493285427704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4645572804414455204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216928493285427704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815404926be7c954eb1bcf46a5f50a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TilePlacer
+--- !u!114 &8717270297334257880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216928493285427704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ac304f415ad2a45910cb5a76cb74fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapManager
+--- !u!114 &4055995883600673780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216928493285427704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f527af1171946c5469d459a91917b861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapDataProvider
+  _tileSo:
+  - {fileID: 11400000, guid: 57a5f41224966b849a6bb650f730d53b, type: 2}
+  - {fileID: 11400000, guid: 313086d82346af94aa5502970d529c1a, type: 2}
+  - {fileID: 11400000, guid: b43dbafe4f046454faff2e4f72a52f42, type: 2}
+  - {fileID: 11400000, guid: e4a5dda9e15225340ae7472e242d7fd4, type: 2}
+  - {fileID: 11400000, guid: 5393a2dcb0ae8d1428e919bed3c42a39, type: 2}
+  - {fileID: 11400000, guid: c2a856bc8b3220640b3a79a1b9517771, type: 2}
+  _mapData1: {fileID: 4900000, guid: 573bfab5e85702740a28911bf4971525, type: 3}

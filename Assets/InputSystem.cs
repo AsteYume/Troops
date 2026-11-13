@@ -109,6 +109,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScreenToVector"",
+                    ""type"": ""Value"",
+                    ""id"": ""8b90b77f-7660-4e55-84d5-163e460d185f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -177,6 +186,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92ca4f59-6892-4883-a115-f67d33fd9cb3"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScreenToVector"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_InGameAction = asset.FindActionMap("InGameAction", throwIfNotFound: true);
         m_InGameAction_PauseMenu = m_InGameAction.FindAction("PauseMenu", throwIfNotFound: true);
         m_InGameAction_Movement = m_InGameAction.FindAction("Movement", throwIfNotFound: true);
+        m_InGameAction_ScreenToVector = m_InGameAction.FindAction("ScreenToVector", throwIfNotFound: true);
     }
 
     ~@InputSystem()
@@ -269,6 +290,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private List<IInGameActionActions> m_InGameActionActionsCallbackInterfaces = new List<IInGameActionActions>();
     private readonly InputAction m_InGameAction_PauseMenu;
     private readonly InputAction m_InGameAction_Movement;
+    private readonly InputAction m_InGameAction_ScreenToVector;
     /// <summary>
     /// Provides access to input actions defined in input action map "InGameAction".
     /// </summary>
@@ -288,6 +310,10 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "InGameAction/Movement".
         /// </summary>
         public InputAction @Movement => m_Wrapper.m_InGameAction_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action "InGameAction/ScreenToVector".
+        /// </summary>
+        public InputAction @ScreenToVector => m_Wrapper.m_InGameAction_ScreenToVector;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -320,6 +346,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @ScreenToVector.started += instance.OnScreenToVector;
+            @ScreenToVector.performed += instance.OnScreenToVector;
+            @ScreenToVector.canceled += instance.OnScreenToVector;
         }
 
         /// <summary>
@@ -337,6 +366,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @ScreenToVector.started -= instance.OnScreenToVector;
+            @ScreenToVector.performed -= instance.OnScreenToVector;
+            @ScreenToVector.canceled -= instance.OnScreenToVector;
         }
 
         /// <summary>
@@ -391,5 +423,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMovement(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScreenToVector" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScreenToVector(InputAction.CallbackContext context);
     }
 }
