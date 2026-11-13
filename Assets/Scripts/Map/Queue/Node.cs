@@ -2,7 +2,8 @@ using System;
 
 public class Node : IComparable<Node>
 {
-    public int[,] Board; // 이 노드의 좌표
+    public int x; // x좌표
+    public int z; // z좌표
     public int Cost; // 누적 비용
     public Node Parent; // 부모 노드
     
@@ -12,9 +13,10 @@ public class Node : IComparable<Node>
     /// <param name="board">좌표</param>
     /// <param name="cost">누적 비용</param>
     /// <param name="parent">부모 노드</param>
-    public Node (int[,] board, int cost,  Node parent)
+    public Node (int X, int Z, int cost,  Node parent)
     {
-        Board = board;
+        x = X;
+        z = Z;
         Cost = cost;
         Parent = parent;
     }

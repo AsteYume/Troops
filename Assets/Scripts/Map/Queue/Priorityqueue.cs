@@ -23,7 +23,7 @@ public class PriorityQueue<T>
 
         while (currentIndex > 0) // 맨 앞에 도착하거나 중단될때까지 반복
         {
-            int parentIndex = (currentIndex - 1) / 2; // 이진트리 
+            int parentIndex = (currentIndex - 1) / 2; // 이진탐색
             if (comparer(data[currentIndex], data[parentIndex]) >= 0)
                 break;
 

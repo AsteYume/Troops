@@ -887,6 +887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f527af1171946c5469d459a91917b861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapDataProvider
+  _markerPrefab: {fileID: 3745982939881988790, guid: ffd1faa481d84144892ee6c549307fd7, type: 3}
+  _markerStart: {fileID: 3745982939881988790, guid: 50a284040337a0846b1b3d3e9621757d, type: 3}
   _tileSo:
   - {fileID: 11400000, guid: 57a5f41224966b849a6bb650f730d53b, type: 2}
   - {fileID: 11400000, guid: 313086d82346af94aa5502970d529c1a, type: 2}
