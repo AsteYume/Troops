@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1718574815925285367}
   - component: {fileID: 3339846028872804872}
   m_Layer: 15
-  m_Name: Plain (1)
+  m_Name: Heavy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8092123976196366231}
   - component: {fileID: 2677325884329662924}
   m_Layer: 15
-  m_Name: Plain (2)
+  m_Name: Heavy (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3043543177102207890}
   - component: {fileID: 5958166801205944094}
   m_Layer: 15
-  m_Name: Plain (3)
+  m_Name: Heavy (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 70152567712989515}
   - component: {fileID: 1038029011500400906}
   m_Layer: 15
-  m_Name: Plain
+  m_Name: Heavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.25, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.5, z: 0.95}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1078019070723736054}
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 7574845534571726813}
   - component: {fileID: 3760823719756355913}
   m_Layer: 15
-  m_Name: Plain (4)
+  m_Name: Heavy (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
