@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 516ce52e72d7c2d4ab65919ec175a540, type: 3}
+  m_Name: 14Mortar
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  _skillType: 0
+  _tagNumber: 14
+  _name: "\uBC15\uACA9\uD3EC"
+  _supplyCost: 20
+  _activeCost: 4
+  _weaponType: 3
+  _attackType: 1
+  _damage: 100
+  _shots: 1
+  _pierce: 2
+  _minRange: 4
+  _maxRange: 8
+  _radius: 2
+  _accuracy: 50
+  _isNeedMount: 1

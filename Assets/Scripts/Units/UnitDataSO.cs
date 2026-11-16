@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Unit", menuName = "Scriptable Objects/UnitDataSo")]
 public class UnitDataSo : ScriptableObject
 {
-    [SerializeField] private string _name;
+    [SerializeField] private string _unitName;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _maxSupply;
     [SerializeField] private int _maxActivePoint;
@@ -14,7 +14,7 @@ public class UnitDataSo : ScriptableObject
     [SerializeField] private SkillSO _secondary;
     [SerializeField] private SkillSO _tertiary;
     
-    public string Name => _name;
+    public string UnitName => _unitName;
     public int MaxHealth => _maxHealth;
     public int MaxSupply => _maxSupply;
     public int MaxActivePoint => _maxActivePoint;

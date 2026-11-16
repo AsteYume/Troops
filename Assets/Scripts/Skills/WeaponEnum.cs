@@ -1,7 +1,10 @@
 public enum WeaponEnum
 {
     None = -1,
-    SingleTarget,
-    RadiusCircle,
-    RadiusCone
+    Pistol,
+    Rifle,
+    MachineGun,
+    Mortar,
+    Grenade,
+    Artillery
 }

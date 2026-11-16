@@ -1,6 +1,6 @@
 public class Unit
 {
-    private string _name;
+    private string _unitName;
     private int _maxHealth;
     private int _maxSupply;
     private int _maxActivePoint;
@@ -19,7 +19,7 @@ public class Unit
 
     public Unit(UnitDataSo unitData, DirectionEnum direction, UnitTeam team)
     {
-        _name = unitData.name;
+        _unitName = unitData.UnitName;
         _maxHealth = unitData.MaxHealth;
         _maxSupply = unitData.MaxSupply;
         _maxActivePoint = unitData.MaxActivePoint;

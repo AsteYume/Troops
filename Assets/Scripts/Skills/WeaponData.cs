@@ -9,7 +9,8 @@ public class WeaponData : SkillSO
     [SerializeField] private int _supplyCost;
     [SerializeField] private int _activeCost;
 
-    [SerializeField] private WeaponEnum _attackType;
+    [SerializeField] private WeaponEnum _weaponType;
+    [SerializeField] private WeaponAttackType _attackType;
     [SerializeField] private int _damage;
     [SerializeField] private int _shots;
     [SerializeField] private int _pierce;
@@ -25,7 +26,8 @@ public class WeaponData : SkillSO
     public override int SupplyCost => _supplyCost;
     public override int ActiveCost => _activeCost;
 
-    public WeaponEnum AttackType => _attackType;
+    public WeaponEnum WeaponType => _weaponType;
+    public WeaponAttackType AttackType => _attackType;
     public int Damage => _damage;
     public int Shots => _shots;
     public int Pierce => _pierce;
