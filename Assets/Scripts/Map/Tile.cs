@@ -4,28 +4,22 @@ public class Tile
 {
     public Tile(
         GameObject tileObject,
-        MapTileEnum tileType,
-        int moveCost,
-        int sightCost,
-        int armor,
-        bool canPass,
-        bool canPierce,
-        bool canStay,
-        bool canDestroy,
-        MapTileEnum destroyResult)
+        MapTileEnum tileType
+        )
     {
         _tileObject = tileObject;
         _tileType = tileType;
-        _moveCost = moveCost;
-        _sightCost = sightCost;
-        _armor = armor;
-        _canPass = canPass;
-        _canPierce = canPierce;
-        _canStay = canStay;
-        _canDestroy = canDestroy;
-        _destroyResult = destroyResult;
+        _moveCost = _provider.GetTileByEnum(_tileType).MoveCost;
+        _sightCost = _provider.GetTileByEnum(_tileType).SightCost;
+        _armor = _provider.GetTileByEnum(_tileType).Armor;
+        _canPass = _provider.GetTileByEnum(_tileType).CanPass;
+        _canPierce = _provider.GetTileByEnum(_tileType).CanPierce;
+        _canStay = _provider.GetTileByEnum(_tileType).CanStay;
+        _canDestroy = _provider.GetTileByEnum(_tileType).CanDestroy;
+        _destroyResult = _provider.GetTileByEnum(_tileType).DestroyResult;
     }
     
+    private MapDataProvider _provider;
     private GameObject _tileObject;
     private MapTileEnum _tileType;
     private int _moveCost;
@@ -36,6 +30,7 @@ public class Tile
     private bool _canStay;
     private bool _canDestroy;
     private MapTileEnum _destroyResult;
+    private UnitData _unitData;
     
     public MapTileEnum TileType => _tileType;
     public GameObject TileObject => _tileObject;
@@ -47,4 +42,15 @@ public class Tile
     public bool CanStay => _canStay;
     public bool CanDestroy => _canDestroy;
     public MapTileEnum DestroyResult => _destroyResult;
+    public bool HasUnit => _unitData != null;
+    public UnitData UnitData => _unitData;
+
+    public void SetUnitData(UnitData unitData)
+    {
+        _unitData = unitData;
+    }
+    public void RemoveUnitData()
+    {
+        _unitData = null;
+    }
 }

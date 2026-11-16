@@ -144,19 +144,14 @@ public class MapDataProvider : MonoBehaviour
     
     // =======================================================================================
 
+    public MapTileSO GetTileByEnum(MapTileEnum tileEnum)
+    {
+        return _tileDictionary[tileEnum];
+    }
+
     private Tile SetTileInstance(GameObject obj, MapTileEnum tileEnum)
     {
-        return new Tile(
-            obj,
-            _tileDictionary[tileEnum].TileType,
-            _tileDictionary[tileEnum].MoveCost,
-            _tileDictionary[tileEnum].SightCost,
-            _tileDictionary[tileEnum].Armor,
-            _tileDictionary[tileEnum].CanPass,
-            _tileDictionary[tileEnum].CanPierce,
-            _tileDictionary[tileEnum].CanStay,
-            _tileDictionary[tileEnum].CanDestroy,
-            _tileDictionary[tileEnum].DestroyResult);
+        return new Tile(obj,tileEnum);
     }
 
     private void InitMapData()
