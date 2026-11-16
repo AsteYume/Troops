@@ -49,6 +49,11 @@ public class MapDataProvider : MonoBehaviour
         _tileArray[x,z] = SetTileInstance(obj, tileEnum);
     }
 
+    public void AddUnit(GameObject obj, int x, int z, Unit unitData)
+    {
+        _tileArray[x,z].SetUnitData(obj, unitData);
+    }
+
     public bool TryGetTile(int x, int z, out Tile tile)
     {
         int horizontal = Mathf.Clamp(x, 0, MapSize - 1);
@@ -153,6 +158,7 @@ public class MapDataProvider : MonoBehaviour
     {
         return new Tile(obj,tileEnum);
     }
+    
 
     private void InitMapData()
     {

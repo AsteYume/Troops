@@ -30,7 +30,8 @@ public class Tile
     private bool _canStay;
     private bool _canDestroy;
     private MapTileEnum _destroyResult;
-    private UnitData _unitData;
+    private GameObject _unitObject;
+    private Unit _unitData;
     
     public MapTileEnum TileType => _tileType;
     public GameObject TileObject => _tileObject;
@@ -43,10 +44,12 @@ public class Tile
     public bool CanDestroy => _canDestroy;
     public MapTileEnum DestroyResult => _destroyResult;
     public bool HasUnit => _unitData != null;
-    public UnitData UnitData => _unitData;
+    public GameObject UnitObject => _unitObject;
+    public Unit UnitData => _unitData;
 
-    public void SetUnitData(UnitData unitData)
+    public void SetUnitData(GameObject unitObject ,Unit unitData)
     {
+        _unitObject = unitObject;
         _unitData = unitData;
     }
     public void RemoveUnitData()

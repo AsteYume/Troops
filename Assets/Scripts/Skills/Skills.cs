@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SkillData : ScriptableObject
+public abstract class SkillSO : ScriptableObject
 {
     public abstract SkillsEnum SkillType { get; }
     public abstract int TagNumber { get; }

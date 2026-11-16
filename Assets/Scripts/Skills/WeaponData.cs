@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Objects/Skills")]
-public class WeaponData : SkillData
+public class WeaponData : SkillSO
 {
     [SerializeField] private SkillsEnum _skillType;
     [SerializeField] private int _tagNumber;
