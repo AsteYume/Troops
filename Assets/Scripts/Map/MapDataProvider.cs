@@ -69,18 +69,19 @@ public class MapDataProvider : MonoBehaviour
     
     private void ReadData(TextAsset mapData)
     {
-        string[] lines = mapData.text.Split('\n');
-        _mapSizeEnum = (MapSizeEnum)lines.Length;
+        string[] lines; 
+        lines = mapData.text.Split('\n');
+        SetMapSize(lines.Length);
 
-        for (int y = 0; y < MapSize; y++)
+        for (int z = 0; z < MapSize; z++)
         {
-            string[] cells = lines[y].Split(',');
+            string[] cells = lines[z].Split(',');
 
             for (int x = 0; x < MapSize; x++)
             {
                 string cell = cells[x];
 
-                if (Enum.TryParse(cell, out MapTileEnum mapTileEnum)) _mapTileArray[x, y] = mapTileEnum;
+                if (Enum.TryParse(cell, out MapTileEnum mapTileEnum)) _mapTileArray[x, z] = mapTileEnum;
             }
         }
     }
@@ -155,17 +156,22 @@ public class MapDataProvider : MonoBehaviour
         return _tileDictionary[tileEnum];
     }
 
+    private void SetMapSize(int size)
+    {
+        _mapSizeEnum = (MapSizeEnum)size;
+        _mapTileArray = new MapTileEnum[MapSize, MapSize];
+        _tileArray = new Tile[MapSize, MapSize];
+    }
+
     private Tile SetTileInstance(GameObject obj, MapTileEnum tileEnum)
     {
-        return new Tile(obj,tileEnum);
+        return new Tile(obj,tileEnum,this);
     }
     
 
     private void InitMapData()
     {
         _tileDictionary = new Dictionary<MapTileEnum, MapTileSO>();
-        _mapTileArray = new MapTileEnum[MapSize, MapSize];
-        _tileArray = new Tile[MapSize, MapSize];
     }
 
     private void InitSearchData()

@@ -853,6 +853,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4055995883600673780, guid: 4dc6ecf1038cc0d4480db438f8968469, type: 3}
+      propertyPath: _mapData1
+      value: 
+      objectReference: {fileID: 4900000, guid: cb44ba5f108fa5445b16533523f9e7a1, type: 3}
     - target: {fileID: 8216928493285427704, guid: 4dc6ecf1038cc0d4480db438f8968469, type: 3}
       propertyPath: m_Name
       value: MapGenerator

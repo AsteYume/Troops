@@ -36,7 +36,7 @@ public class TilePlacer : MonoBehaviour
             {
                 MapTileEnum mapTile = mapTileData[x, z];
                 Vector3 vec = new Vector3(x, 0, z);
-                GameObject tile = Instantiate(SetTiles(mapTile));
+                GameObject tile = Instantiate(SetTiles(mapTile)); 
                 _provider.AddTile(tile, x, z, mapTile);
                 tile.transform.position = vec;
             }

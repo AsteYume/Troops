@@ -4,22 +4,22 @@ public class Tile
 {
     public Tile(
         GameObject tileObject,
-        MapTileEnum tileType
+        MapTileEnum tileType,
+        MapDataProvider provider
         )
     {
         _tileObject = tileObject;
         _tileType = tileType;
-        _moveCost = _provider.GetTileByEnum(_tileType).MoveCost;
-        _sightCost = _provider.GetTileByEnum(_tileType).SightCost;
-        _armor = _provider.GetTileByEnum(_tileType).Armor;
-        _canPass = _provider.GetTileByEnum(_tileType).CanPass;
-        _canPierce = _provider.GetTileByEnum(_tileType).CanPierce;
-        _canStay = _provider.GetTileByEnum(_tileType).CanStay;
-        _canDestroy = _provider.GetTileByEnum(_tileType).CanDestroy;
-        _destroyResult = _provider.GetTileByEnum(_tileType).DestroyResult;
+        _moveCost = provider.GetTileByEnum(_tileType).MoveCost;
+        _sightCost = provider.GetTileByEnum(_tileType).SightCost;
+        _armor = provider.GetTileByEnum(_tileType).Armor;
+        _canPass = provider.GetTileByEnum(_tileType).CanPass;
+        _canPierce = provider.GetTileByEnum(_tileType).CanPierce;
+        _canStay = provider.GetTileByEnum(_tileType).CanStay;
+        _canDestroy = provider.GetTileByEnum(_tileType).CanDestroy;
+        _destroyResult = provider.GetTileByEnum(_tileType).DestroyResult;
     }
     
-    private MapDataProvider _provider;
     private GameObject _tileObject;
     private MapTileEnum _tileType;
     private int _moveCost;

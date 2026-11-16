@@ -1,4 +1,6 @@
-public class Unit
+using UnityEngine;
+
+public abstract class Unit : MonoBehaviour
 {
     private UnitTypeEnum _unitType;
     private string _unitName;
@@ -11,6 +13,7 @@ public class Unit
     private SkillSO _primary;
     private SkillSO _secondary;
     private SkillSO _tertiary;
+    private GameObject _gameObject;
     
     private int _health;
     private int _supply;
@@ -55,7 +58,8 @@ public class Unit
         _supply = _maxSupply;
         _activePoint = _maxActivePoint;
         _direction = direction;
-        _team = team;
     }
-    
+
+    public abstract void SetUnitData();
+
 }
