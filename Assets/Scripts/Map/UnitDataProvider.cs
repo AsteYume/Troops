@@ -89,7 +89,6 @@ public class UnitDataProvider : MonoBehaviour
     {  
         string[] cells = line.Split(',');
         TrimCells(cells);
-        Debug.Log(line);
 
         if (Enum.TryParse(cells[0], out UnitTypeEnum unitType)  
             && int.TryParse(cells[1], out int startX)  
@@ -104,7 +103,6 @@ public class UnitDataProvider : MonoBehaviour
     
     private void ParseEnemyLine(string line)
     {
-        Debug.Log(line);
         string[] cells = line.Split(',');
 
         TrimCells(cells);   
