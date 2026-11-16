@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ada9b68f6f8174d4baaa62898424de09, type: 3}
-  m_Name: Unit
+  m_Name: 111Rfile 2
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSo
-  _unitName: 
-  _maxHealth: 0
-  _maxSupply: 0
-  _maxActivePoint: 0
-  _activeRecover: 0
-  _sight: 0
-  _moveRange: 0
-  _primary: {fileID: 0}
-  _secondary: {fileID: 0}
+  _unitName: "\uC18C\uCD1D\uBCD1"
+  _maxHealth: 200
+  _maxSupply: 200
+  _maxActivePoint: 6
+  _activeRecover: 4
+  _sight: 7
+  _moveRange: 3
+  _primary: {fileID: 11400000, guid: 9c05abde7f8389847b50df012d227447, type: 2}
+  _secondary: {fileID: 11400000, guid: 9021fcde788417845a64a931079d0751, type: 2}
   _tertiary: {fileID: 0}
