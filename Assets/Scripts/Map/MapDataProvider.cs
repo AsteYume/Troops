@@ -14,7 +14,7 @@ public class MapDataProvider : MonoBehaviour
     private Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
     private MapTileEnum[,] _mapTileArray;
     private Tile[,] _tileArray;
-    private MapSizeEnum _mapSizeEnum = MapSizeEnum.Small;
+    private MapSizeEnum _mapSizeEnum;
     
     public MapTileEnum[,] MapTileArray => _mapTileArray;
     public int MapSize => (int)_mapSizeEnum;
@@ -70,6 +70,7 @@ public class MapDataProvider : MonoBehaviour
     private void ReadData(TextAsset mapData)
     {
         string[] lines = mapData.text.Split('\n');
+        _mapSizeEnum = (MapSizeEnum)lines.Length;
 
         for (int y = 0; y < MapSize; y++)
         {

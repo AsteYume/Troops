@@ -19,7 +19,7 @@ public class MapManager : MonoBehaviour
         PlaceMap(); 
     }
     
-    public void PlaceMap()
+    private void PlaceMap()
     {
         _tilePlacer.SetMap();
     }
