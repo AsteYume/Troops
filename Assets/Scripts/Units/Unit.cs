@@ -1,25 +1,29 @@
 using UnityEngine;
 
-public abstract class Unit : MonoBehaviour
+public abstract class Unit
 {
-    private UnitTypeEnum _unitType;
-    private string _unitName;
-    private int _maxHealth;
-    private int _maxSupply;
-    private int _maxActivePoint;
-    private int _activeRecover;
-    private int _sight;
-    private int _moveRange;
-    private SkillSO _primary;
-    private SkillSO _secondary;
-    private SkillSO _tertiary;
-    private GameObject _gameObject;
+    protected UnitTypeEnum _unitType;
+    protected string _unitName;
+    protected int _maxHealth;
+    protected int _maxSupply;
+    protected int _maxActivePoint;
+    protected int _activeRecover;
+    protected int _sight;
+    protected int _moveRange;
+    protected SkillSO _primary;
+    protected SkillSO _secondary;
+    protected SkillSO _tertiary;
+    protected int _x;
+    protected int _z;
+    protected int _unitNumber;
     
-    private int _health;
-    private int _supply;
-    private int _activePoint;
-    private DirectionEnum _direction;
-    private UnitTeam _team;
+    protected GameObject _prefab;
+    
+    protected int _health;
+    protected int _supply;
+    protected int _activePoint;
+    protected DirectionEnum _direction;
+    protected UnitTeam _team;
     
     public UnitTypeEnum UnitType => _unitType;
     public string UnitName => _unitName;
@@ -32,15 +36,18 @@ public abstract class Unit : MonoBehaviour
     public SkillSO Primary => _primary;
     public SkillSO Secondary => _secondary;
     public SkillSO Tertiary => _tertiary;
+    public int X => _x;
+    public int Z => _z;
+    public GameObject Prefab => _prefab;
     
     public int Health => _health;
     public int Supply => _supply;
     public int ActivePoint => _activePoint;
     public DirectionEnum Direction => _direction;
     public UnitTeam Team => _team;
-    
 
-    public Unit(UnitDataSo unitData, DirectionEnum direction, UnitTeam team)
+
+    protected Unit(UnitDataSo unitData, DirectionEnum direction, int x, int z, int number)
     {
         _unitType = unitData.UnitType;
         _unitName = unitData.UnitName;
@@ -53,13 +60,19 @@ public abstract class Unit : MonoBehaviour
         _primary = unitData.Primary;
         _secondary = unitData.Secondary;
         _tertiary = unitData.Tertiary;
+        _x = x;
+        _z = z;
+        _unitNumber =  number;
 
         _health = _maxHealth;
         _supply = _maxSupply;
         _activePoint = _maxActivePoint;
         _direction = direction;
     }
-
-    public abstract void SetUnitData();
+    
+    public void SetPrefab(GameObject prefab)
+    {
+        _prefab = prefab;
+    }
 
 }

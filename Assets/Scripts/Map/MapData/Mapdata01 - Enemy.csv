@@ -1,0 +1,5 @@
+UnitType,StartX,StartZ,Direction,AIGroup
+Rifle,2,8,West,Hold
+Rifle,2,12,South,Hold
+Rifle,4,9,West,A
+Rifle,4,10,West,B

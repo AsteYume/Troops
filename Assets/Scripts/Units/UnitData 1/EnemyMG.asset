@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ada9b68f6f8174d4baaa62898424de09, type: 3}
-  m_Name: 115Artillery
+  m_Name: EnemyMG
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSo
-  _unitName: "\uC57C\uD3EC"
-  _maxHealth: 400
+  _unitType: 2
+  _unitName: "\uAE30\uAD00\uCD1D\uC0AC\uC218"
+  _maxHealth: 200
   _maxSupply: 200
   _maxActivePoint: 6
-  _activeRecover: 1
+  _activeRecover: 4
   _sight: 6
-  _moveRange: 0
-  _primary: {fileID: 11400000, guid: 500585685d183f04091e8794015231e7, type: 2}
-  _secondary: {fileID: 11400000, guid: a9f0393a533bdc64880322d6f28279ed, type: 2}
+  _moveRange: 3
+  _primary: {fileID: 11400000, guid: 1e98947a89aeeaf4ebc0ec224392e995, type: 2}
+  _secondary: {fileID: 11400000, guid: 7e8ec5cdbb7d7ac438dc92b84b503ac6, type: 2}
   _tertiary: {fileID: 0}
+  _prefab: {fileID: 0}

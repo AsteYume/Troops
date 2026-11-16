@@ -1,7 +1,0 @@
-Team,UnitType,X,Z,Direction,AI
-Ally,Rfile,1,1,North,None
-Ally,Rifle,3,1,North,None
-Enemy,Rifle,2,8,West,Hold
-Enemy,Rifle,2,12,South,Hold
-Enemy,Rifle,5,8,West,Hold
-Enemy,Rifle,5,11,West,Hold

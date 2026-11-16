@@ -14,6 +14,7 @@ public class UnitDataSo : ScriptableObject
     [SerializeField] private SkillSO _primary;
     [SerializeField] private SkillSO _secondary;
     [SerializeField] private SkillSO _tertiary;
+    [SerializeField] private GameObject _prefab;
 
     public UnitTypeEnum UnitType => _unitType;
     public string UnitName => _unitName;
@@ -26,4 +27,5 @@ public class UnitDataSo : ScriptableObject
     public SkillSO Primary => _primary;
     public SkillSO Secondary => _secondary;
     public SkillSO Tertiary => _tertiary;
+    public GameObject Prefab => _prefab;
 }

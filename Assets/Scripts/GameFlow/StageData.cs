@@ -6,10 +6,14 @@ public static class StageData
     
     private static UnitTypeEnum _allyMvp;
     private static UnitTypeEnum _enemyMvp;
-    private static List<Unit> _allyUnits = new();
-    private static List<Unit> _enemyUnits = new();
+    private static List<AllyUnit> _allyUnits = new();
+    private static List<EnemyUnit> _enemyUnits = new();
+    private static Dictionary<EnemyAIGroup, EnemyAI> _enemyAis = new();
     
     // ============================================================
+    
+    public static List<AllyUnit> AllyUnits => _allyUnits;
+    public static List<EnemyUnit> EnemyUnits => _enemyUnits;
 
 
     public static bool IsEnemyWin => _allyUnits.Count == 0 
@@ -35,30 +39,35 @@ public static class StageData
         _stageNumber = 0;
         _allyMvp = UnitTypeEnum.None;
         _enemyMvp = UnitTypeEnum.None;
+        _enemyAis.Clear();
         _allyUnits.Clear();
         _enemyUnits.Clear();
     }
 
-    public static void RemoveAlly(Unit allyUnit)
+    public static void AddAI(EnemyAI ai)
+    {
+        _enemyAis.Add(ai.AIGroup, ai);
+    }
+
+    public static void RemoveAlly(AllyUnit allyUnit)
     {
         _allyUnits.Remove(allyUnit);
     }
 
-    public static void AddAlly(Unit allyUnit)
+    public static void AddAlly(AllyUnit allyUnit)
     {
         _allyUnits.Add(allyUnit);
     }
 
-    public static void RemoveEnemy(Unit enemyUnit)
+    public static void RemoveEnemy(EnemyUnit enemyUnit)
     {
         _enemyUnits.Remove(enemyUnit);
     }
 
-    public static void AddEnemy(Unit enemyUnit)
+    public static void AddEnemy(EnemyUnit enemyUnit)
     {
         _enemyUnits.Add(enemyUnit);
     }
-    
     
     public static void SetStage(int stageNumber)
     {
