@@ -16,6 +16,7 @@ public abstract class Unit
     protected int _x;
     protected int _z;
     protected int _unitNumber;
+    protected bool _hasMoved;
     
     protected GameObject _prefab;
     
@@ -39,12 +40,28 @@ public abstract class Unit
     public int X => _x;
     public int Z => _z;
     public GameObject Prefab => _prefab;
+    public bool HasMoved => _hasMoved;
+
+    public bool CanAction
+    {
+        get
+        {
+            if (!_hasMoved) return true;
+            return CheckCost(1) || CheckCost(2) || CheckCost(3);
+        }
+    }
     
     public int Health => _health;
     public int Supply => _supply;
     public int ActivePoint => _activePoint;
     public DirectionEnum Direction => _direction;
     public UnitTeam Team => _team;
+
+    public void NextTurn()
+    {
+        _hasMoved = false;
+        _activePoint += _activeRecover;
+    }
 
 
     protected Unit(UnitDataSo unitData, DirectionEnum direction, int x, int z, int number)
@@ -73,6 +90,27 @@ public abstract class Unit
     public void SetPrefab(GameObject prefab)
     {
         _prefab = prefab;
+    }
+
+    private bool CheckCost(int slot)
+    {
+        switch (slot)
+        {
+            case 1:
+                return _primary != null 
+                       && _primary.ActiveCost <= _activePoint 
+                       && _primary.SupplyCost <= _supply;
+            case 2:
+                return _secondary != null
+                       && _secondary.ActiveCost <= _activePoint
+                       && _secondary.SupplyCost <=  _supply;
+            case 3:
+                return _tertiary != null 
+                       && _tertiary.ActiveCost <= _activePoint 
+                       && _tertiary.SupplyCost <= _supply;
+            default:
+                return false;
+        }
     }
 
 }

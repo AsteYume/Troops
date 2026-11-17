@@ -67,18 +67,18 @@ public class PhaseManager : MonoBehaviour
         StartNextPhase();
     }
     
+    public void StartNextPhase()
+    {
+        _currentPhase = CheckNextPhase(_currentPhase);
+        PhaseStart?.Invoke(_currentPhase);
+    }
+    
     // ============================================================
     
     private void StageStart(int stage)
     {
         SetValue(stage);
         StartNextPhase();
-    }
-
-    private void StartNextPhase()
-    {
-        _currentPhase = CheckNextPhase(_currentPhase);
-        PhaseStart?.Invoke(_currentPhase);
     }
 
     private PhaseEnum CheckNextPhase(PhaseEnum phase)

@@ -102,15 +102,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""a34ec332-f1d6-4460-a39e-dc0f43ea87fe"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""ScreenToVector"",
                     ""type"": ""Value"",
                     ""id"": ""8b90b77f-7660-4e55-84d5-163e460d185f"",
@@ -118,6 +109,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""6717c5b9-faac-4938-bb0e-1aac9c9c72dc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -133,61 +133,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""a4dfcad7-dcfb-416e-8446-92cbaf137189"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""ba0f3f2d-5058-4faa-a3ee-68dd56ae75fa"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4ac25071-ef46-47f6-a0e8-761d89cad725"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""c51fb8d9-8c94-4fa1-bb22-e01192e76c5d"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""dc4174e3-d58f-4863-bb24-272c2641dd51"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""92ca4f59-6892-4883-a115-f67d33fd9cb3"",
                     ""path"": ""<Mouse>/position"",
@@ -195,6 +140,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ScreenToVector"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46d41c69-c362-46a1-8ec2-1e4111148352"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -206,8 +162,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // InGameAction
         m_InGameAction = asset.FindActionMap("InGameAction", throwIfNotFound: true);
         m_InGameAction_PauseMenu = m_InGameAction.FindAction("PauseMenu", throwIfNotFound: true);
-        m_InGameAction_Movement = m_InGameAction.FindAction("Movement", throwIfNotFound: true);
         m_InGameAction_ScreenToVector = m_InGameAction.FindAction("ScreenToVector", throwIfNotFound: true);
+        m_InGameAction_Click = m_InGameAction.FindAction("Click", throwIfNotFound: true);
     }
 
     ~@InputSystem()
@@ -289,8 +245,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_InGameAction;
     private List<IInGameActionActions> m_InGameActionActionsCallbackInterfaces = new List<IInGameActionActions>();
     private readonly InputAction m_InGameAction_PauseMenu;
-    private readonly InputAction m_InGameAction_Movement;
     private readonly InputAction m_InGameAction_ScreenToVector;
+    private readonly InputAction m_InGameAction_Click;
     /// <summary>
     /// Provides access to input actions defined in input action map "InGameAction".
     /// </summary>
@@ -307,13 +263,13 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @PauseMenu => m_Wrapper.m_InGameAction_PauseMenu;
         /// <summary>
-        /// Provides access to the underlying input action "InGameAction/Movement".
-        /// </summary>
-        public InputAction @Movement => m_Wrapper.m_InGameAction_Movement;
-        /// <summary>
         /// Provides access to the underlying input action "InGameAction/ScreenToVector".
         /// </summary>
         public InputAction @ScreenToVector => m_Wrapper.m_InGameAction_ScreenToVector;
+        /// <summary>
+        /// Provides access to the underlying input action "InGameAction/Click".
+        /// </summary>
+        public InputAction @Click => m_Wrapper.m_InGameAction_Click;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -343,12 +299,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
             @ScreenToVector.started += instance.OnScreenToVector;
             @ScreenToVector.performed += instance.OnScreenToVector;
             @ScreenToVector.canceled += instance.OnScreenToVector;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
         }
 
         /// <summary>
@@ -363,12 +319,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
             @ScreenToVector.started -= instance.OnScreenToVector;
             @ScreenToVector.performed -= instance.OnScreenToVector;
             @ScreenToVector.canceled -= instance.OnScreenToVector;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
         }
 
         /// <summary>
@@ -417,18 +373,18 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPauseMenu(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMovement(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "ScreenToVector" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScreenToVector(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClick(InputAction.CallbackContext context);
     }
 }

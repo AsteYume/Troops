@@ -6,8 +6,6 @@ public class TilePlacer : MonoBehaviour
     private GameObject[,] _mapTilePrefabs;
     
     // ================================================================================
-
-    private MapTileEnum[,] MapTileArray => _provider.MapTileArray;
     private int MapSize => _provider.MapSize;
     
     // ================================================================================
@@ -21,7 +19,7 @@ public class TilePlacer : MonoBehaviour
 
     public void SetMap()
     {
-        PlaceMapTiles(MapTileArray);
+        PlaceMapTiles(MapDataProvider.MapTileArray);
     }
     
     // ================================================================================

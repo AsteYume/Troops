@@ -6,18 +6,16 @@ public class MapDataProvider : MonoBehaviour
 {
     [SerializeField] private List<MapTileSO> _tileSo;
     [SerializeField] private TextAsset _mapData1;
-
-    private PriorityQueue<Node> _priorityQueue;
-    private Dictionary<(int, int), Node> _nodeDictionary;
-    private int _range;
     
-    private Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
-    private MapTileEnum[,] _mapTileArray;
     private Tile[,] _tileArray;
     private MapSizeEnum _mapSizeEnum;
     
-    public MapTileEnum[,] MapTileArray => _mapTileArray;
-    public int MapSize => (int)_mapSizeEnum;
+    private static MapTileEnum[,] _mapTileArray;
+    private static Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
+    
+    public static MapTileEnum[,] MapTileArray => _mapTileArray;
+    public static Dictionary<MapTileEnum, MapTileSO> TileDictionary => _tileDictionary;
+    public int MapSize => (int)StageData.MapSize;
 
     private void Awake()
     {
@@ -29,7 +27,6 @@ public class MapDataProvider : MonoBehaviour
     private void Init()
     {
         InitMapData();
-        InitSearchData();
         foreach (var tile in _tileSo)
         {
             _tileDictionary.Add(tile.TileType, tile);
@@ -93,66 +90,7 @@ public class MapDataProvider : MonoBehaviour
     }
     // 탐색
     // =======================================================================================
-
-    public Dictionary<(int, int), Node> GetNodeDictionary (int x, int z, int range)
-    {
-        _range = range;
-        _nodeDictionary.Clear(); // 딕셔너리 비우기
-        Node start = new Node(x, z, 0, null); // 시작 노드 지정
-        
-        _priorityQueue.Enqueue(start); // 시작 노드 큐에 추가
-        while (_priorityQueue.Count > 0) // 큐가 빌때까지 반복
-        {
-            Node currentNode = _priorityQueue.Dequeue(); // 맨 앞 노드 하나 검사
-            if (IsOldCheap(currentNode)) continue; // 신규&최소비용 검사
-            CheckAdjacency(currentNode);
-        }
-        _nodeDictionary.Remove((x, z));
-        return _nodeDictionary;
-    }
     
-    private bool IsOldCheap(Node node)
-    {
-
-        if (!_nodeDictionary.ContainsKey((node.x, node.z)))
-        {
-            _nodeDictionary.Add((node.x, node.z), node);
-            return false;
-        }
-        Node old = _nodeDictionary[(node.x, node.z)];
-        if (old == node) return false;
-        return node.CompareTo(old) >= 0;
-    }
-
-    private void CheckAdjacency(Node node)
-    {
-        TryAddNode(node.x,node.z+1, node); // 북
-        TryAddNode(node.x,node.z-1, node); // 남
-        TryAddNode(node.x+1,node.z, node); // 동
-        TryAddNode(node.x-1,node.z, node); // 서
-    }
-
-    private void TryAddNode(int x, int z, Node node)
-    {
-        if (!IsNodeExists(x, z)) return;
-        int cost = GetTileCost(x, z) + node.Cost;
-        if (cost > _range) return;
-        Node newNode = new Node(x, z, cost, node);
-        if (IsOldCheap(newNode)) return;
-        _priorityQueue.Enqueue(newNode);
-    }
-
-    private bool IsNodeExists(int x, int z)
-    {
-        return (x >= 0 && x < MapSize && z >= 0 && z < MapSize);
-    }
-
-    private int GetTileCost(int x, int z)
-    {
-        return _tileDictionary
-            [_mapTileArray[x, z]]
-            .MoveCost;
-    }
     
     
     // =======================================================================================
@@ -164,7 +102,7 @@ public class MapDataProvider : MonoBehaviour
 
     private void SetMapSize(int size)
     {
-        _mapSizeEnum = (MapSizeEnum)size;
+        StageData.SetMapSize(size);
         _mapTileArray = new MapTileEnum[MapSize, MapSize];
         _tileArray = new Tile[MapSize, MapSize];
     }
@@ -178,11 +116,5 @@ public class MapDataProvider : MonoBehaviour
     private void InitMapData()
     {
         _tileDictionary = new Dictionary<MapTileEnum, MapTileSO>();
-    }
-
-    private void InitSearchData()
-    {
-        _nodeDictionary = new Dictionary<(int, int), Node>();
-        _priorityQueue = new PriorityQueue<Node>();
     }
 }
