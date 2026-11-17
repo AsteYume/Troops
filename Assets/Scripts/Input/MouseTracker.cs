@@ -72,7 +72,22 @@ public class MouseTracker : MonoBehaviour
 
     private void OnSelect()
     {
-        _stateManager.SetState(StateEnum.Idle);
+        if (!CursorSelect(out Vector2Int vec))
+        {
+            _stateManager.SetState(StateEnum.Idle);
+            _rangeViewer.ClearData();
+            return;
+        }
+        Vector2Int unitVec = new Vector2Int(_currentUnit.X, _currentUnit.Z);
+        if (vec == unitVec)
+        {
+        }
+        else if (StageData.UnitsPosition.ContainsKey((vec.x,vec.y)))
+        {
+            _stateManager.SetState(StateEnum.Idle);
+            _rangeViewer.ClearData();
+        }
+        // 해당 유닛을 그 지점으로 이동
         _rangeViewer.ClearData();
     }
 
@@ -80,9 +95,7 @@ public class MouseTracker : MonoBehaviour
     {
         if (!CursorSelect(out Vector2Int vec)) return;
         _currentUnit = _rangeViewer.TryGetUnit(vec, out var unit) ? unit : null;
-        Debug.Log(_currentUnit);
         if (!_isUnitExist) return;
-        Debug.Log(unit.Team);
         switch (unit.Team)
         {
             case UnitTeam.Blue:

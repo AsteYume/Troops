@@ -14,6 +14,7 @@ public static class StageData
     
     // ============================================================
     
+    public static Dictionary<(int, int), Unit> UnitsPosition => _unitsPosition;
     public static List<AllyUnit> AllyUnits => _allyUnits;
     public static List<EnemyUnit> EnemyUnits => _enemyUnits;
 
