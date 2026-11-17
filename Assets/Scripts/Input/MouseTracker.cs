@@ -13,7 +13,7 @@ public class MouseTracker : MonoBehaviour
     private Vector2 _cursorVector;
     private float _rayLength = 50f;
     private int _tileLayer = 1 << 15;
-    private bool _isMoveMode = false;
+    private bool _isMoveMode = true;
     
     private bool _isTileExist =>  _currentTile != null;
 

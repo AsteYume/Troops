@@ -1,9 +1,9 @@
 public enum PhaseEnum
 {
     None = -1,
-    Init,
+    Prepare,
     Start,
-    Ally,
+    Player,
     Enemy,
     Result
 }

@@ -22,7 +22,6 @@ public class MapDataProvider : MonoBehaviour
     private void Awake()
     {
         Init();
-        ReadData(_mapData1);
     }
     
     // =======================================================================================
@@ -34,6 +33,18 @@ public class MapDataProvider : MonoBehaviour
         foreach (var tile in _tileSo)
         {
             _tileDictionary.Add(tile.TileType, tile);
+        }
+    }
+
+    public void StageStart(int number)
+    {
+        switch (number)
+        {
+            case 1: 
+                ReadData(_mapData1);
+                break;
+            default :
+                break;
         }
     }
 
@@ -58,12 +69,7 @@ public class MapDataProvider : MonoBehaviour
     {
         int horizontal = Mathf.Clamp(x, 0, MapSize - 1);
         int vertical = Mathf.Clamp(z, 0, MapSize - 1);
-        Debug.Log($"{horizontal},{vertical}");
-        Debug.Log(_tileArray);
         tile = _tileArray[horizontal,vertical];
-        Debug.Log(_tileArray[horizontal,vertical]);
-        Debug.Log(tile);
-        Debug.Log($"대상 타일 {tile.MoveCost}");
         return (x==horizontal&& z==vertical);
     }
     
