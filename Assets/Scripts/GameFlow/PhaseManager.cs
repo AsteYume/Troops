@@ -45,12 +45,14 @@ public class PhaseManager : MonoBehaviour
         Init();
     }
 
-    private void Start()
-    {
-        // StageStart(1);
-    }
-
     // ============================================================
+    
+    public void GameStart(int stage)
+    {
+        StageData.ClearStageData();
+        StageData.SetStage(stage);
+        StageStart(stage);
+    }
     
     public void GameEnd()
     {

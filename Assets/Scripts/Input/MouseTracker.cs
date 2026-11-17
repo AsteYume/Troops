@@ -1,25 +1,26 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MouseTracker : MonoBehaviour
 {
-    [SerializeField] private MapDataProvider _mapData;
     [SerializeField] private GameObject _tileSelecter;
     [SerializeField] private InputActionReference _mouseMove;
+
+    private StateManager _stateManager;
     private Camera _camera;
-    
     private Tile _currentTile;
     private Vector2 _cursorVector;
     private float _rayLength = 50f;
     private int _tileLayer = 1 << 15;
-    private bool _isMoveMode = true;
     
+    private MapDataProvider MapData => _stateManager.MapData;
+    private StateEnum CurrentState => _stateManager.CurrentState;
+    private bool IsTracking => CurrentState is StateEnum.Select or StateEnum.MoveTarget or StateEnum.SkillTarget;
     private bool _isTileExist =>  _currentTile != null;
 
     private void Awake()
     {
-        _camera = Camera.main;
+        Init();
     }
 
     private void Update()
@@ -37,9 +38,14 @@ public class MouseTracker : MonoBehaviour
     {
         _mouseMove.action.Disable();
     }
-    
-    
 
+
+    private void Init()
+    {
+        _camera = Camera.main;
+        _stateManager = GetComponent<StateManager>();
+    }
+    
     private void SelectorControl()
     {
         _tileSelecter.SetActive(_isTileExist);
@@ -47,7 +53,7 @@ public class MouseTracker : MonoBehaviour
     
     private void CursorSelect()
     {
-        if (!_isMoveMode) return;
+        if (!IsTracking) return;
         _cursorVector = _mouseMove.action.ReadValue<Vector2>();
         Ray ray = _camera.ScreenPointToRay(_cursorVector);
         if (Physics.Raycast(ray, out RaycastHit hit, _rayLength, _tileLayer))
@@ -61,10 +67,17 @@ public class MouseTracker : MonoBehaviour
 
     private void GetTile(int x, int z)
     {
-        if (_mapData.TryGetTile(x, z, out Tile tile))
+        if (MapData.TryGetTile(x, z, out Tile tile))
         {
             _currentTile = tile;
-            _tileSelecter.transform.position = new Vector3(x, 0, z);
+            switch (_stateManager.CurrentState)
+            {
+                case StateEnum.Select:
+                    _tileSelecter.transform.position = new Vector3(x, 0, z);
+                    break;
+                default:
+                    break;
+            }
         }
         else
         {

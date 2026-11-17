@@ -11,6 +11,7 @@ public class MapManager : MonoBehaviour
     
     // ============================================================
     
+    public MapDataProvider MapDataProvider => _mapDataProvider;
     private int MapSize => (int)MapSizeEnum;
 
     public static MapManager Instance

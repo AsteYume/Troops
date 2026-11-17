@@ -7,9 +7,9 @@ public class UnitDataProvider : MonoBehaviour
     [SerializeField] private List<UnitDataSo> _allySOList;
     [SerializeField] private List<UnitDataSo> _enemySOList;
     
-    [SerializeField] private TextAsset _allyData;
-    [SerializeField] private TextAsset _enemyData;
-    [SerializeField] private TextAsset _aiData;
+    [SerializeField] private List<TextAsset> _allyData;
+    [SerializeField] private List<TextAsset> _enemyData;
+    [SerializeField] private List<TextAsset> _aiData;
 
     private Dictionary<UnitTypeEnum, UnitDataSo> _allyDictionary = new();
     private Dictionary<UnitTypeEnum, UnitDataSo> _enemyDictionary = new();
@@ -24,11 +24,7 @@ public class UnitDataProvider : MonoBehaviour
     {
         Init();
     }
-
-    private void Start()
-    {
-        ReadData();
-    }
+    
 
     private void Init()
     {
@@ -44,19 +40,21 @@ public class UnitDataProvider : MonoBehaviour
     }
     
     
-    private void ReadData()
+    public void ReadData(int stage)
     {
-        ReadAllyUnit();
-        ReadEnemyAI();
-        ReadEnemyUnit();
+        int index = stage - 1;
+        ReadAllyUnit(index);
+        ReadEnemyAI(index);
+        ReadEnemyUnit(index);
         _unitPlacer.PlaceUnits(this);
     }
     
     // ============================================================
 
-    private void ReadAllyUnit()
+    private void ReadAllyUnit(int index)
     {
-        string[] lines = _allyData.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        TextAsset ally = _allyData[index];
+        string[] lines = ally.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         
         for (int i = 1;  i < lines.Length; i++)
         {
@@ -64,9 +62,10 @@ public class UnitDataProvider : MonoBehaviour
         }
     }
 
-    private void ReadEnemyUnit()
+    private void ReadEnemyUnit(int index)
     {
-        string[] lines = _enemyData.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        TextAsset enemy = _enemyData[index];
+        string[] lines = enemy.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         
         for (int i = 1;  i < lines.Length; i++)
         {
@@ -74,9 +73,10 @@ public class UnitDataProvider : MonoBehaviour
         }
     }
     
-    private void ReadEnemyAI()
+    private void ReadEnemyAI(int index)
     {
-        string[] lines = _aiData.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        TextAsset ai = _aiData[index];
+        string[] lines = ai.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         for (int i = 1;  i < lines.Length; i++)
         {
             ParseAILine(lines[i]);

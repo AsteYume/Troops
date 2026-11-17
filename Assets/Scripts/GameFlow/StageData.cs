@@ -28,11 +28,7 @@ public static class StageData
 
     
     // ============================================================
-
-    public static void SetStageData()
-    {
-        
-    }
+    
     
     public static void ClearStageData()
     {

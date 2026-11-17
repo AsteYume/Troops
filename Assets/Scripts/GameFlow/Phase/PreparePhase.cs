@@ -14,6 +14,7 @@ public class PreparePhase : Phase
         Debug.Log(phaseType);
         if (phaseType != _phaseType) return;
         MapManager.Instance.StageStart(StageNumber);
+        UnitManager.Instance.StageStart(StageNumber);
     }
     
     public override void OnPhaseEnd(PhaseEnum phaseType)
