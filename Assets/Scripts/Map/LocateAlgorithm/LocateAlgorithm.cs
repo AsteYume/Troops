@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MapBfsFinder
+public static class LocateAlgorithm
 {
     private static List<Vector2Int> _maxTileArray = new();
     private static List<Vector2Int> _minTileArray = new();
@@ -15,7 +15,22 @@ public static class MapBfsFinder
         return Bfs(vec, maxRange, minRange);
     }
     
-    public static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange)
+    public static Stack<Vector2Int> ReadNodePath(Node end)
+    {
+        Stack<Vector2Int> stack = new Stack<Vector2Int>();
+        Node currentNode = end;
+        Vector2Int nextPos = new Vector2Int(currentNode.x, currentNode.z);
+        do
+        {
+            stack.Push(nextPos);
+            currentNode = currentNode.Parent;
+            nextPos = new Vector2Int(currentNode.x, currentNode.z);
+        }
+        while(currentNode.Parent != null);
+        return stack;
+    }
+
+    private static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange)
     {
         ClearArray();
         _center = center;

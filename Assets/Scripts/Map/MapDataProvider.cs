@@ -32,6 +32,13 @@ public class MapDataProvider : MonoBehaviour
             _tileDictionary.Add(tile.TileType, tile);
         }
     }
+    
+    // =======================================================================================
+    
+    public static bool IsStayAvailable(int x, int z)
+    {
+        return _tileDictionary[_mapTileArray[x, z]].CanStay;
+    }
 
     public void StageStart(int number)
     {

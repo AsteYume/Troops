@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +10,7 @@ public class MouseTracker : MonoBehaviour
     [SerializeField] private InputActionReference _mouseMove;
     [SerializeField] private InputActionReference _mouseClick;
 
+    private UnitMover _unitMover;
     private RangeViewer _rangeViewer;
     private StateManager _stateManager;
     private Camera _camera;
@@ -16,6 +19,7 @@ public class MouseTracker : MonoBehaviour
     private float _rayLength = 50f;
     private int _tileLayer = 1 << 15;
     private Unit _currentUnit;
+    private Vector2Int _targetVector;
     
     private MapDataProvider MapData => _stateManager.MapData;
     private StateEnum CurrentState => _stateManager.CurrentState;
@@ -50,6 +54,7 @@ public class MouseTracker : MonoBehaviour
 
     private void Init()
     {
+        _unitMover = GetComponent<UnitMover>();
         _camera = Camera.main;
         _stateManager = GetComponent<StateManager>();
         _rangeViewer = GetComponent<RangeViewer>();
@@ -72,29 +77,45 @@ public class MouseTracker : MonoBehaviour
         Debug.Log(_currentUnit);
     }
 
+    public void OnMoveResult()
+    {
+        StageData.MoveUnit(_currentUnit, _targetVector);
+        _currentUnit.MoveDone(_targetVector);
+        _rangeViewer.ClearData();
+        _currentUnit = null;
+        _stateManager.SetState(StateEnum.Idle);
+    }
+
     private void OnSelect()
     {
         Vector2Int unitVec = new Vector2Int(_currentUnit.X, _currentUnit.Z);
-        if (!CursorSelect(out Vector2Int vec)||vec == unitVec)
+        if (!CursorSelect(out Vector2Int vec))
         {
             _stateManager.SetState(StateEnum.Idle);
             _rangeViewer.ClearData();
             return;
         }
-        if (vec == unitVec)
+        if (vec == unitVec) return;
+        if (StageData.UnitsPosition.ContainsKey((vec.x,vec.y))) TrySelectUnit();
+        else if(_rangeViewer.IsReachableTile(vec.x, vec.y,out Node node))
         {
-            // 
+            _targetVector = vec;
+            Stack<Vector2Int> stack = LocateAlgorithm.ReadNodePath(node);
+            _unitMover.SetData(_currentUnit, stack);
         }
-        else if (StageData.UnitsPosition.ContainsKey((vec.x,vec.y)))
+        else
         {
-            // 해당 유닛으로 선택 유닛을 변경
             _stateManager.SetState(StateEnum.Idle);
             _rangeViewer.ClearData();
         }
-        // 해당 유닛을 그 지점으로 이동
     }
 
     private void OnIdle()
+    {
+        TrySelectUnit();
+    }
+
+    private void TrySelectUnit()
     {
         _rangeViewer.ClearData();
         if (!CursorSelect(out Vector2Int vec)) return;
@@ -111,7 +132,7 @@ public class MouseTracker : MonoBehaviour
                 _rangeViewer.BfsView(vec, unit.Sight, 0);
                 break;
             default:
-                break;
+                throw new ArgumentOutOfRangeException();
         }
     }
     

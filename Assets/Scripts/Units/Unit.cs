@@ -18,7 +18,7 @@ public abstract class Unit
     protected int _unitNumber;
     protected bool _hasMoved;
     
-    protected GameObject _prefab;
+    protected GameObject _object;
     
     protected int _health;
     protected int _supply;
@@ -39,7 +39,7 @@ public abstract class Unit
     public SkillSO Tertiary => _tertiary;
     public int X => _x;
     public int Z => _z;
-    public GameObject Prefab => _prefab;
+    public GameObject Object => _object;
     public bool HasMoved => _hasMoved;
 
     public bool CanAction
@@ -56,6 +56,13 @@ public abstract class Unit
     public int ActivePoint => _activePoint;
     public DirectionEnum Direction => _direction;
     public UnitTeam Team => _team;
+
+    public void MoveDone(Vector2Int point)
+    {
+        _hasMoved = true;
+        _x = point.x;
+        _z = point.y;
+    }
 
     public void NextTurn()
     {
@@ -89,7 +96,7 @@ public abstract class Unit
     
     public void SetPrefab(GameObject prefab)
     {
-        _prefab = prefab;
+        _object = prefab;
     }
 
     private bool CheckCost(int slot)

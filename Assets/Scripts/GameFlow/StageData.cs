@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class StageData
 {
@@ -32,6 +33,12 @@ public static class StageData
 
     
     // ============================================================
+
+    public static void MoveUnit(Unit unit, Vector2Int targetPosition)
+    {
+        _unitsPosition.Remove((unit.X, unit.Z));
+        _unitsPosition.Add((targetPosition.x, targetPosition.y), unit);
+    }
 
     public static void SetMapSize(int mapSize)
     {

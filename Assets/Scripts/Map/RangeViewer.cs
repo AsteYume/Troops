@@ -21,6 +21,11 @@ public class RangeViewer : MonoBehaviour
     {
         InitSearchData();
     }
+
+    public bool IsReachableTile(int x, int z, out Node node)
+    {
+        return _nodeDictionary.TryGetValue((x,z), out node);
+    }
     
     public bool TryGetUnit(Vector2Int vec, out Unit unit)
     {
@@ -31,7 +36,7 @@ public class RangeViewer : MonoBehaviour
     public void BfsView(Vector2Int vec, int max, int min)
     {
         ClearData();
-        PlaceViewer(MapBfsFinder.Bfs(vec.x, vec.y, max, min),true);
+        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min),true);
     }
 
     public void CalculateMovement(Vector2Int vec, int range)

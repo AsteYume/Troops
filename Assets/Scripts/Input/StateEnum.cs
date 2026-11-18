@@ -4,7 +4,9 @@ public enum StateEnum
     Idle,
     Select,
     MoveTarget,
+    Move,
     MoveResult,
     SkillTarget,
+    Skill,
     SkillResult
 }
