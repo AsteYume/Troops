@@ -57,6 +57,7 @@ public class MouseTracker : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext context)
     {
+        Debug.Log(CurrentState);
         switch (CurrentState)
         {
             case StateEnum.Idle:
@@ -68,43 +69,46 @@ public class MouseTracker : MonoBehaviour
             default:
                 break;
         }
+        Debug.Log(_currentUnit);
     }
 
     private void OnSelect()
     {
-        if (!CursorSelect(out Vector2Int vec))
+        Vector2Int unitVec = new Vector2Int(_currentUnit.X, _currentUnit.Z);
+        if (!CursorSelect(out Vector2Int vec)||vec == unitVec)
         {
             _stateManager.SetState(StateEnum.Idle);
             _rangeViewer.ClearData();
             return;
         }
-        Vector2Int unitVec = new Vector2Int(_currentUnit.X, _currentUnit.Z);
         if (vec == unitVec)
         {
+            // 
         }
         else if (StageData.UnitsPosition.ContainsKey((vec.x,vec.y)))
         {
+            // 해당 유닛으로 선택 유닛을 변경
             _stateManager.SetState(StateEnum.Idle);
             _rangeViewer.ClearData();
         }
         // 해당 유닛을 그 지점으로 이동
-        _rangeViewer.ClearData();
     }
 
     private void OnIdle()
     {
+        _rangeViewer.ClearData();
         if (!CursorSelect(out Vector2Int vec)) return;
         _currentUnit = _rangeViewer.TryGetUnit(vec, out var unit) ? unit : null;
         if (!_isUnitExist) return;
         switch (unit.Team)
         {
             case UnitTeam.Blue:
-                unit.NextTurn();
                 if (!unit.CanAction) return;
                 _stateManager.SetState(StateEnum.Select);
                 _rangeViewer.CalculateMovement(vec, unit.MoveRange);
                 break;
             case UnitTeam.Red:
+                _rangeViewer.BfsView(vec, unit.Sight, 0);
                 break;
             default:
                 break;

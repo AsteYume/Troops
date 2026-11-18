@@ -28,17 +28,20 @@ public static class MapBfsFinder
     private static List<Vector2Int> GetTilesInRange(int range)
     {
         List<Vector2Int> tiles = new List<Vector2Int>();
+        if (range <= 0) return tiles;
         int minX = _center.x - range >= 0 ?  _center.x - range : 0;
         int maxX = _center.x + range <= _maxIndex ?  _center.x + range : _maxIndex;
 
         for (int x = minX; x <= maxX; x++)
         {
             int cost = range - Mathf.Abs(_center.x - x);
-            int minY = _center.y - cost >= 0 ? _center.y - cost : 0;
-            int maxY = _center.y + cost <= _maxIndex ? _center.y - cost : _maxIndex;
+            int minY = (_center.y - cost >= 0) ? (_center.y - cost) : 0;
+            int maxY = (_center.y + cost <= _maxIndex) ? (_center.y + cost) : _maxIndex;
 
+            Debug.Log($"{minX},{maxX},{minY},{maxY}");
             for (int y = minY; y <= maxY; y++)
             {
+                Debug.Log($"{x},{y}");
                 tiles.Add(new Vector2Int(x, y));
             }
         }

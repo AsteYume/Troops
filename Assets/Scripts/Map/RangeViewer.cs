@@ -31,14 +31,14 @@ public class RangeViewer : MonoBehaviour
     public void BfsView(Vector2Int vec, int max, int min)
     {
         ClearData();
-        PlaceViewer(MapBfsFinder.Bfs(vec.x, vec.y, max, min));
+        PlaceViewer(MapBfsFinder.Bfs(vec.x, vec.y, max, min),true);
     }
 
     public void CalculateMovement(Vector2Int vec, int range)
     {
         ClearData();
         GetNodeDictionary(vec.x, vec.y, range);
-        if (TrySeeMovement(out var list)) PlaceViewer(list);
+        if (TrySeeMovement(out var list)) PlaceViewer(list,false);
     }
 
     public bool TrySeeMovement(out List<Vector2Int> list)
@@ -58,12 +58,13 @@ public class RangeViewer : MonoBehaviour
         ClearViewerObject();
     }
 
-    private void PlaceViewer(List<Vector2Int> positions)
+    private void PlaceViewer(List<Vector2Int> positions, bool isSkill)
     {
         foreach (var vec in positions)
         {
             Vector3 pos = new Vector3(vec.x, 0, vec.y);
-            GameObject viewer = Instantiate(_moveViewerPrefab,transform);
+            GameObject viewer = isSkill ? Instantiate(_rangeViewerPrefab, transform)
+                    : Instantiate(_moveViewerPrefab,transform);
             viewer.transform.position = pos;
             _viewers.Add(viewer);
         }

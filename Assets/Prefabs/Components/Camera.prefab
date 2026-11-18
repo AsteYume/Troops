@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e6a65558f3f1842a3087a943be2db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameCameraMove
-  movement: {fileID: 5320540975006471734, guid: 4acb962df4038214aae4ca27e4d66b07, type: 3}
+  movement: {fileID: 0}
   cameraSpeed: 5
 --- !u!1 &8132480392222215551
 GameObject:

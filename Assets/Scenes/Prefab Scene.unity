@@ -325,7 +325,7 @@ MonoBehaviour:
   _enemySOList:
   - {fileID: 11400000, guid: 416072a6ab904284fa5df52605b91cf5, type: 2}
   _allyData:
-  - {fileID: 4900000, guid: 681ecbac4c90dcb4d9b693b1f1d12944, type: 3}
+  - {fileID: 4900000, guid: c36cc997444a7d049829be7a5a33c46d, type: 3}
   _enemyData:
   - {fileID: 4900000, guid: b0d8805056aa84b48b42d3f04629650c, type: 3}
   _aiData:
@@ -1462,6 +1462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4917776938632661742, guid: 09b14e69374343745b3240d0cabab202, type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 8580803822405571867, guid: 4acb962df4038214aae4ca27e4d66b07, type: 3}
     - target: {fileID: 5220733797034621402, guid: 09b14e69374343745b3240d0cabab202, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
