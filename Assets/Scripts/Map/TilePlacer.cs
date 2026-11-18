@@ -19,7 +19,7 @@ public class TilePlacer : MonoBehaviour
 
     public void SetMap()
     {
-        PlaceMapTiles(MapDataProvider.MapTileArray);
+        PlaceMapTiles(MapDataProvider.Instance.MapTileArray);
     }
     
     // ================================================================================

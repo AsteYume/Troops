@@ -4,25 +4,46 @@ using System.Collections.Generic;
 
 public class MapDataProvider : MonoBehaviour
 {
+    private static MapDataProvider _instance;
+    
     [SerializeField] private List<MapTileSO> _tileSo;
     [SerializeField] private TextAsset _mapData1;
     
     private Tile[,] _tileArray;
     private MapSizeEnum _mapSizeEnum;
     
-    private static MapTileEnum[,] _mapTileArray;
-    private static Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
+    private MapTileEnum[,] _mapTileArray;
+    private Dictionary<MapTileEnum, MapTileSO> _tileDictionary;
     
-    public static MapTileEnum[,] MapTileArray => _mapTileArray;
-    public static Dictionary<MapTileEnum, MapTileSO> TileDictionary => _tileDictionary;
+    public Tile[,] TileArray => _tileArray;
+    public MapTileEnum[,] MapTileArray => _mapTileArray;
+    public Dictionary<MapTileEnum, MapTileSO> TileDictionary => _tileDictionary;
     public int MapSize => (int)StageData.Instance.MapSize;
 
     private void Awake()
     {
+        SetSingleTon();
         Init();
     }
     
     // =======================================================================================
+    
+    public static MapDataProvider Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<MapDataProvider>();
+            }
+            if (_instance == null)
+            {
+                GameObject go = new GameObject();
+                go.AddComponent<MapDataProvider>();
+            }
+            return _instance;
+        }
+    }
 
     private void Init()
     {
@@ -35,7 +56,7 @@ public class MapDataProvider : MonoBehaviour
     
     // =======================================================================================
     
-    public static bool IsStayAvailable(int x, int z)
+    public bool IsStayAvailable(int x, int z)
     {
         return _tileDictionary[_mapTileArray[x, z]].CanStay;
     }
@@ -119,9 +140,18 @@ public class MapDataProvider : MonoBehaviour
         return new Tile(obj,tileEnum,this);
     }
     
-
     private void InitMapData()
     {
         _tileDictionary = new Dictionary<MapTileEnum, MapTileSO>();
+    }
+    
+    private void SetSingleTon()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
     }
 }

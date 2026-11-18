@@ -25,7 +25,7 @@ public class MapManager : MonoBehaviour
             if (_instance == null)
             {
                 GameObject go = new GameObject();
-                go.AddComponent<PhaseManager>();
+                go.AddComponent<MapManager>();
             }
             return _instance;
         }

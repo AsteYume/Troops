@@ -13,8 +13,8 @@ public class RangeViewer : MonoBehaviour
     private int _range;
 
     private int MapSize => (int)StageData.Instance.MapSize;
-    private Dictionary<MapTileEnum, MapTileSO> _tileDictionary => MapDataProvider.TileDictionary;
-    private MapTileEnum[,] _mapTileArray => MapDataProvider.MapTileArray;
+    private Dictionary<MapTileEnum, MapTileSO> _tileDictionary => MapDataProvider.Instance.TileDictionary;
+    private MapTileEnum[,] _mapTileArray => MapDataProvider.Instance.MapTileArray;
     
 
     private void Awake()
@@ -31,6 +31,12 @@ public class RangeViewer : MonoBehaviour
     {
         if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out unit)) return false;
         return true;
+    }
+
+    public void ConeView(Vector2Int vec, int range,DirectionEnum direction)
+    {
+        ClearData();
+        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction),true);
     }
 
     public void BfsView(Vector2Int vec, int max, int min)

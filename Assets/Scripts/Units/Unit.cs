@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Unit
@@ -25,6 +26,8 @@ public abstract class Unit
     protected int _activePoint;
     protected DirectionEnum _direction;
     protected UnitTeam _team;
+
+    public event Action OnDead;
     
     public UnitTypeEnum UnitType => _unitType;
     public string UnitName => _unitName;
@@ -41,6 +44,7 @@ public abstract class Unit
     public int Z => _z;
     public GameObject Object => _object;
     public bool HasMoved => _hasMoved;
+    public bool IsMount;
 
     public bool CanAction
     {
@@ -56,6 +60,12 @@ public abstract class Unit
     public int ActivePoint => _activePoint;
     public DirectionEnum Direction => _direction;
     public UnitTeam Team => _team;
+
+    public void TakeDamage(int damage)
+    {
+        _health -= damage;
+        if (_health <= 0) OnDead?.Invoke();
+    }
 
     public void MoveDone(Vector2Int point)
     {

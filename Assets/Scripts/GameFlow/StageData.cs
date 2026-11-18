@@ -16,12 +16,7 @@ public class StageData
         }
     }
     
-    
-    
-    
-    
-    
-    
+    private int _counts = 0;
     private int _stageNumber = 0;
     private MapSizeEnum _mapSize = MapSizeEnum.None;
     
@@ -37,6 +32,9 @@ public class StageData
     public Dictionary<(int, int), Unit> UnitsPosition => _unitsPosition;
     public List<AllyUnit> AllyUnits => _allyUnits;
     public List<EnemyUnit> EnemyUnits => _enemyUnits;
+    
+    public int MapSeed => _stageNumber.GetHashCode();
+    public int Counts => _counts;
 
     public MapSizeEnum MapSize => _mapSize;
 
@@ -117,5 +115,10 @@ public class StageData
     public void SetStage(int stageNumber)
     {
         _stageNumber = stageNumber;
+    }
+
+    public void AddCount()
+    {
+        _counts++;
     }
 }
