@@ -15,7 +15,7 @@ public class MapDataProvider : MonoBehaviour
     
     public static MapTileEnum[,] MapTileArray => _mapTileArray;
     public static Dictionary<MapTileEnum, MapTileSO> TileDictionary => _tileDictionary;
-    public int MapSize => (int)StageData.MapSize;
+    public int MapSize => (int)StageData.Instance.MapSize;
 
     private void Awake()
     {
@@ -109,7 +109,7 @@ public class MapDataProvider : MonoBehaviour
 
     private void SetMapSize(int size)
     {
-        StageData.SetMapSize(size);
+        StageData.Instance.SetMapSize(size);
         _mapTileArray = new MapTileEnum[MapSize, MapSize];
         _tileArray = new Tile[MapSize, MapSize];
     }

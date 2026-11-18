@@ -97,7 +97,7 @@ public class UnitDataProvider : MonoBehaviour
         {
             _count++;
             AllyUnit unit = new AllyUnit(GetUnitData(unitType,_ally), direction, startX, startZ,_count);
-            StageData.AddAlly(unit);
+            StageData.Instance.AddAlly(unit);
         }
     }
     
@@ -115,7 +115,7 @@ public class UnitDataProvider : MonoBehaviour
         {
             _count++;
             EnemyUnit unit = new EnemyUnit(GetUnitData(unitType,_enemy), direction, startX, startZ,_count, aiGroup);
-            StageData.AddEnemy(unit);
+            StageData.Instance.AddEnemy(unit);
         }
     }
     
@@ -129,7 +129,7 @@ public class UnitDataProvider : MonoBehaviour
             && int.TryParse(cells[2], out int targetX)  
             && int.TryParse(cells[3], out int targetZ)) 
         {
-            StageData.AddAI(new EnemyAI(aiGroup, aiType, targetX, targetZ));
+            StageData.Instance.AddAI(new EnemyAI(aiGroup, aiType, targetX, targetZ));
         }
         
 

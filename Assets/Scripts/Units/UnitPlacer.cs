@@ -13,7 +13,7 @@ public class UnitPlacer : MonoBehaviour
 
     private void PlaceAllyUnits()
     {
-        foreach (AllyUnit data in StageData.AllyUnits)
+        foreach (AllyUnit data in StageData.Instance.AllyUnits)
         {
             int x = data.X, z = data.Z;
             Vector3 vec = new  Vector3(x, 0, z);
@@ -26,7 +26,7 @@ public class UnitPlacer : MonoBehaviour
     
     private void PlaceEnemyUnits()
     {
-        foreach (EnemyUnit data in StageData.EnemyUnits)
+        foreach (EnemyUnit data in StageData.Instance.EnemyUnits)
         {
             int x = data.X, z = data.Z;
             Vector3 vec = new Vector3(x, 0, z);

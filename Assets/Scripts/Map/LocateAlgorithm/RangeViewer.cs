@@ -12,7 +12,7 @@ public class RangeViewer : MonoBehaviour
     private Dictionary<(int, int), Node> _nodeDictionary;
     private int _range;
 
-    private int MapSize => (int)StageData.MapSize;
+    private int MapSize => (int)StageData.Instance.MapSize;
     private Dictionary<MapTileEnum, MapTileSO> _tileDictionary => MapDataProvider.TileDictionary;
     private MapTileEnum[,] _mapTileArray => MapDataProvider.MapTileArray;
     
@@ -29,7 +29,7 @@ public class RangeViewer : MonoBehaviour
     
     public bool TryGetUnit(Vector2Int vec, out Unit unit)
     {
-        if (!StageData.TryGetUnit(vec.x, vec.y, out unit)) return false;
+        if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out unit)) return false;
         return true;
     }
 
@@ -52,7 +52,7 @@ public class RangeViewer : MonoBehaviour
         if (_nodeDictionary.Count == 0) return false;
         foreach ((int, int) vector in _nodeDictionary.Keys)
         {
-            if (StageData.UnitsPosition.ContainsKey(vector)) continue;
+            if (StageData.Instance.UnitsPosition.ContainsKey(vector)) continue;
             list.Add(new Vector2Int(vector.Item1, vector.Item2));
         }
         return true;
@@ -127,7 +127,7 @@ public class RangeViewer : MonoBehaviour
     private void TryAddNode(int x, int z, Node node)
     {
         if (!IsNodeExists(x, z)) return;
-        if (StageData.UnitsPosition.ContainsKey((x,z))) return;
+        if (StageData.Instance.UnitsPosition.ContainsKey((x,z))) return;
         int cost = GetTileCost(x, z) + node.Cost;
         if (cost > _range) return;
         Node newNode = new Node(x, z, cost, node);

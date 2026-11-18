@@ -79,7 +79,7 @@ public class MouseTracker : MonoBehaviour
 
     public void OnMoveResult()
     {
-        StageData.MoveUnit(_currentUnit, _targetVector);
+        StageData.Instance.MoveUnit(_currentUnit, _targetVector);
         _currentUnit.MoveDone(_targetVector);
         _rangeViewer.ClearData();
         _currentUnit = null;
@@ -96,7 +96,7 @@ public class MouseTracker : MonoBehaviour
             return;
         }
         if (vec == unitVec) return;
-        if (StageData.UnitsPosition.ContainsKey((vec.x,vec.y))) TrySelectUnit();
+        if (StageData.Instance.UnitsPosition.ContainsKey((vec.x,vec.y))) TrySelectUnit();
         else if(_rangeViewer.IsReachableTile(vec.x, vec.y,out Node node))
         {
             _targetVector = vec;
@@ -126,12 +126,13 @@ public class MouseTracker : MonoBehaviour
             case UnitTeam.Blue:
                 if (!unit.CanAction) return;
                 _stateManager.SetState(StateEnum.Select);
+                if (unit.HasMoved) return;
                 _rangeViewer.CalculateMovement(vec, unit.MoveRange);
                 break;
             case UnitTeam.Red:
                 _rangeViewer.BfsView(vec, unit.Sight, 0);
                 break;
-            default:
+            case UnitTeam.None:
                 throw new ArgumentOutOfRangeException();
         }
     }

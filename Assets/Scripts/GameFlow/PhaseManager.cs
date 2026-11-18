@@ -49,8 +49,8 @@ public class PhaseManager : MonoBehaviour
     
     public void GameStart(int stage)
     {
-        StageData.ClearStageData();
-        StageData.SetStage(stage);
+        StageData.Instance.ClearStageData();
+        StageData.Instance.SetStage(stage);
         StageStart(stage);
     }
     
