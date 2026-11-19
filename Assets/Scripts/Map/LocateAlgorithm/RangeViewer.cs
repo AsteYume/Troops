@@ -35,19 +35,19 @@ public class RangeViewer : MonoBehaviour
 
     public void ConeView(Vector2Int vec, int range,DirectionEnum direction)
     {
-        ClearData();
+        ClearViewerObject();
         PlaceViewer(ConeAlgorithm.Cone(vec,range,direction),true);
     }
 
     public void BfsView(Vector2Int vec, int max, int min)
     {
-        ClearData();
+        ClearViewerObject();
         PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min),true);
     }
 
     public void CalculateMovement(Vector2Int vec, int range)
     {
-        ClearData();
+        ClearViewerObject();
         GetNodeDictionary(vec.x, vec.y, range);
         if (TrySeeMovement(out var list)) PlaceViewer(list,false);
     }
@@ -64,10 +64,6 @@ public class RangeViewer : MonoBehaviour
         return true;
     }
     
-    public void ClearData()
-    {
-        ClearViewerObject();
-    }
 
     private void PlaceViewer(List<Vector2Int> positions, bool isSkill)
     {
@@ -81,7 +77,7 @@ public class RangeViewer : MonoBehaviour
         }
     }
 
-    private void ClearViewerObject()
+    public void ClearViewerObject()
     {
         foreach (var viewer in _viewers)
         {

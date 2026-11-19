@@ -10,7 +10,6 @@ public class MouseTracker : MonoBehaviour
     [SerializeField] private InputActionReference _mouseMove;
     [SerializeField] private InputActionReference _mouseClick;
 
-    private UnitMover _unitMover;
     private RangeViewer _rangeViewer;
     private StateManager _stateManager;
     private Camera _camera;
@@ -23,7 +22,7 @@ public class MouseTracker : MonoBehaviour
     
     private MapDataProvider MapData => _stateManager.MapData;
     private StateEnum CurrentState => _stateManager.CurrentState;
-    private bool IsTracking => CurrentState is not (StateEnum.None or StateEnum.MoveResult or StateEnum.SkillResult);
+    private bool IsTracking => CurrentState is not (StateEnum.None or StateEnum.Move or StateEnum.Skill);
     private bool _isTileExist =>  _currentTile != null;
     private bool _isUnitExist => _currentUnit != null;
 
@@ -79,8 +78,6 @@ public class MouseTracker : MonoBehaviour
 
     public void OnMoveResult()
     {
-        StageData.Instance.MoveUnit(_currentUnit, _targetVector);
-        _currentUnit.MoveDone(_targetVector);
         _rangeViewer.ClearData();
         _currentUnit = null;
         _stateManager.SetState(StateEnum.Idle);
@@ -109,11 +106,8 @@ public class MouseTracker : MonoBehaviour
             _rangeViewer.ClearData();
         }
     }
-
-    private void OnIdle()
-    {
-        TrySelectUnit();
-    }
+    
+    
 
     private void TrySelectUnit()
     {
@@ -137,43 +131,4 @@ public class MouseTracker : MonoBehaviour
         }
     }
     
-    private bool CursorSelect(out Vector2Int vec)
-    {
-        vec = new Vector2Int();
-        if (!IsTracking) return false;
-        _cursorVector = _mouseMove.action.ReadValue<Vector2>();
-        Ray ray = _camera.ScreenPointToRay(_cursorVector);
-        if (!Physics.Raycast(ray, out RaycastHit hit, _rayLength, _tileLayer)) return false;
-        Debug.DrawRay(ray.origin, ray.direction * _rayLength, Color.red);
-        vec.x = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x);
-        vec.y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.z);
-        GetTile(vec.x,vec.y);
-        return true;
-    }
-
-    private void ReadMouseMove()
-    {
-        Tracking();
-        _tileSelecter.SetActive(IsTracking && _isTileExist);
-    }
-
-    private void Tracking()
-    {
-        if (!IsTracking) return;
-        if (!CursorSelect(out Vector2Int vec)) return;
-        _tileSelecter.transform.position = new Vector3(vec.x, 0, vec.y);
-    }
-
-    private void GetTile(int x, int z)
-    {
-        if (MapData.TryGetTile(x, z, out Tile tile))
-        {
-            _currentTile = tile;
-            _tileSelecter.transform.position = new Vector3(x, 0, z);
-        }
-        else
-        {
-            _currentTile = null;
-        }
-    }
 }

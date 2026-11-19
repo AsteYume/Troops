@@ -8,6 +8,7 @@ public class WeaponData : SkillSO
     [SerializeField] private string _name;
     [SerializeField] private int _supplyCost;
     [SerializeField] private int _activeCost;
+    [SerializeField] private Sprite _buttonIcon;
 
     [SerializeField] private WeaponEnum _weaponType;
     [SerializeField] private WeaponAttackType _attackType;
@@ -25,6 +26,7 @@ public class WeaponData : SkillSO
     public override string Name => _name;
     public override int SupplyCost => _supplyCost;
     public override int ActiveCost => _activeCost;
+    public override Sprite ButtonIcon => _buttonIcon;
 
     public WeaponEnum WeaponType => _weaponType;
     public WeaponAttackType AttackType => _attackType;

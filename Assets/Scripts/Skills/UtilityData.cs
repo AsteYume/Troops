@@ -8,6 +8,7 @@ public class UtilityData : SkillSO
     [SerializeField] private string _name;
     [SerializeField] private int _supplyCost;
     [SerializeField] private int _activeCost;
+    [SerializeField] private Sprite _buttonIcon;
     
     [SerializeField] private UtilityEnum _utilityType;
     [SerializeField] private int _minRange;
@@ -20,7 +21,8 @@ public class UtilityData : SkillSO
     public override string Name => _name;
     public override int SupplyCost => _supplyCost;
     public override int ActiveCost => _activeCost;
-    
+    public override Sprite ButtonIcon => _buttonIcon;
+
     public UtilityEnum UtilityType => _utilityType;
     public int MinRange => _minRange;
     public int MaxRange => _maxRange;
