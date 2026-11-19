@@ -22,6 +22,7 @@ public class IdleState : State
     
     public override void OnEnter()
     {
+        Debug.Log("Entering IdleState");
         _inputReader.Confirm += OnClick;
     }
 
@@ -36,8 +37,8 @@ public class IdleState : State
     private void OnClick()
     {
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
-        if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out var unit)) return;
         StateEnum nextState;
+        if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out var unit)) return;
         switch (unit.Team)
         {
             case UnitTeam.Blue:
@@ -50,8 +51,8 @@ public class IdleState : State
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        _stateContext.SetSelectVector(vec);
-        _stateContext.SetSelectUnit(unit);
+        _stateContext.SetVector(vec);
+        _stateContext.SetUnit(unit);
         StateEnd?.Invoke(nextState);
     }
     

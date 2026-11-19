@@ -58,11 +58,13 @@ public class InputReader : MonoBehaviour
 
     private void OnConfirm(InputAction.CallbackContext context)
     {
+        Debug.Log("Confirm");
         Confirm?.Invoke();
     }
 
     private void OnCancel(InputAction.CallbackContext context)
     {
+        Debug.Log("Cancel");
         Cancel?.Invoke();
     }
     

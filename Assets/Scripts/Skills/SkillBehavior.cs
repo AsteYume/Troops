@@ -5,14 +5,14 @@ public class SkillBehavior
 {
     [SerializeField] private RangeViewer _rangeViewer;
     
-    private Dictionary<(int, int), Unit> Positions => StageData.Instance.UnitsPosition;
+    private Dictionary<Vector2Int, Unit> Positions => StageData.Instance.UnitsPosition;
 
 
 
     public void SingleTargetAttack(WeaponData data, Vector2Int target)
     {
         Tile mainTile = MapDataProvider.Instance.TileArray[target.x, target.y];
-        Unit mainTarget = Positions[(target.x, target.y)];
+        Unit mainTarget = Positions[target];
         int damage = ProjectileDamage(data.Pierce, data.Accuracy, data.Shots, data.Damage, mainTile);
         mainTarget.TakeDamage(damage);
     }
@@ -28,7 +28,7 @@ public class SkillBehavior
         inRange = new List<Unit>();
         foreach (Vector2Int vec in range)
         {
-            if (Positions.TryGetValue((vec.x, vec.y), out Unit unit)) inRange.Add(unit);
+            if (Positions.TryGetValue(vec, out Unit unit)) inRange.Add(unit);
         }
         return inRange.Count > 0;
     }
@@ -71,7 +71,7 @@ public class SkillBehavior
         switch (data.AttackType)
         {
             case WeaponAttackType.SingleTarget:
-                return Positions.TryGetValue((target.x, target.y), out Unit unit) && unit.Team != attacker.Team;
+                return Positions.TryGetValue(target, out Unit unit) && unit.Team != attacker.Team;
             case WeaponAttackType.RadiusCircle:
             case WeaponAttackType.RadiusCone:
                 if (!data.IsNeedMount) return true;

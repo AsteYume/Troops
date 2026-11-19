@@ -102,6 +102,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""6717c5b9-faac-4938-bb0e-1aac9c9c72dc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""429e93ff-a509-4f94-91e3-e1c7a30ebee7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ScreenToVector"",
                     ""type"": ""Value"",
                     ""id"": ""8b90b77f-7660-4e55-84d5-163e460d185f"",
@@ -109,15 +127,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""6717c5b9-faac-4938-bb0e-1aac9c9c72dc"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""WASD"",
@@ -159,7 +168,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Click"",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -217,6 +226,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""WASD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f83a8fa0-332a-4bed-8e8a-ae603be98f2a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -226,8 +246,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // InGameAction
         m_InGameAction = asset.FindActionMap("InGameAction", throwIfNotFound: true);
         m_InGameAction_PauseMenu = m_InGameAction.FindAction("PauseMenu", throwIfNotFound: true);
+        m_InGameAction_Confirm = m_InGameAction.FindAction("Confirm", throwIfNotFound: true);
+        m_InGameAction_Cancel = m_InGameAction.FindAction("Cancel", throwIfNotFound: true);
         m_InGameAction_ScreenToVector = m_InGameAction.FindAction("ScreenToVector", throwIfNotFound: true);
-        m_InGameAction_Click = m_InGameAction.FindAction("Click", throwIfNotFound: true);
         m_InGameAction_WASD = m_InGameAction.FindAction("WASD", throwIfNotFound: true);
     }
 
@@ -310,8 +331,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_InGameAction;
     private List<IInGameActionActions> m_InGameActionActionsCallbackInterfaces = new List<IInGameActionActions>();
     private readonly InputAction m_InGameAction_PauseMenu;
+    private readonly InputAction m_InGameAction_Confirm;
+    private readonly InputAction m_InGameAction_Cancel;
     private readonly InputAction m_InGameAction_ScreenToVector;
-    private readonly InputAction m_InGameAction_Click;
     private readonly InputAction m_InGameAction_WASD;
     /// <summary>
     /// Provides access to input actions defined in input action map "InGameAction".
@@ -329,13 +351,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @PauseMenu => m_Wrapper.m_InGameAction_PauseMenu;
         /// <summary>
+        /// Provides access to the underlying input action "InGameAction/Confirm".
+        /// </summary>
+        public InputAction @Confirm => m_Wrapper.m_InGameAction_Confirm;
+        /// <summary>
+        /// Provides access to the underlying input action "InGameAction/Cancel".
+        /// </summary>
+        public InputAction @Cancel => m_Wrapper.m_InGameAction_Cancel;
+        /// <summary>
         /// Provides access to the underlying input action "InGameAction/ScreenToVector".
         /// </summary>
         public InputAction @ScreenToVector => m_Wrapper.m_InGameAction_ScreenToVector;
-        /// <summary>
-        /// Provides access to the underlying input action "InGameAction/Click".
-        /// </summary>
-        public InputAction @Click => m_Wrapper.m_InGameAction_Click;
         /// <summary>
         /// Provides access to the underlying input action "InGameAction/WASD".
         /// </summary>
@@ -369,12 +395,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @Confirm.started += instance.OnConfirm;
+            @Confirm.performed += instance.OnConfirm;
+            @Confirm.canceled += instance.OnConfirm;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
             @ScreenToVector.started += instance.OnScreenToVector;
             @ScreenToVector.performed += instance.OnScreenToVector;
             @ScreenToVector.canceled += instance.OnScreenToVector;
-            @Click.started += instance.OnClick;
-            @Click.performed += instance.OnClick;
-            @Click.canceled += instance.OnClick;
             @WASD.started += instance.OnWASD;
             @WASD.performed += instance.OnWASD;
             @WASD.canceled += instance.OnWASD;
@@ -392,12 +421,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @Confirm.started -= instance.OnConfirm;
+            @Confirm.performed -= instance.OnConfirm;
+            @Confirm.canceled -= instance.OnConfirm;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
             @ScreenToVector.started -= instance.OnScreenToVector;
             @ScreenToVector.performed -= instance.OnScreenToVector;
             @ScreenToVector.canceled -= instance.OnScreenToVector;
-            @Click.started -= instance.OnClick;
-            @Click.performed -= instance.OnClick;
-            @Click.canceled -= instance.OnClick;
             @WASD.started -= instance.OnWASD;
             @WASD.performed -= instance.OnWASD;
             @WASD.canceled -= instance.OnWASD;
@@ -449,19 +481,26 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPauseMenu(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Confirm" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnConfirm(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancel(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "ScreenToVector" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScreenToVector(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnClick(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "WASD" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

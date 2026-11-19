@@ -7,9 +7,10 @@ public class RangeViewer : MonoBehaviour
     [SerializeField] GameObject _rangeViewerPrefab;
     
     private List<GameObject> _viewers = new List<GameObject>();
+    private StateContext _context;
 
     private PriorityQueue<Node> _priorityQueue;
-    private Dictionary<(int, int), Node> _nodeDictionary;
+    private Dictionary<Vector2Int, Node> _nodeDictionary;
     private int _range;
 
     private int MapSize => (int)StageData.Instance.MapSize;
@@ -24,7 +25,7 @@ public class RangeViewer : MonoBehaviour
 
     public bool IsReachableTile(int x, int z, out Node node)
     {
-        return _nodeDictionary.TryGetValue((x,z), out node);
+        return _nodeDictionary.TryGetValue(new Vector2Int(x,z), out node);
     }
     
     public bool TryGetUnit(Vector2Int vec, out Unit unit)
@@ -58,10 +59,11 @@ public class RangeViewer : MonoBehaviour
     {
         list = new List<Vector2Int>();
         if (_nodeDictionary.Count == 0) return false;
-        foreach ((int, int) vector in _nodeDictionary.Keys)
+        foreach (Vector2Int vector in _nodeDictionary.Keys)
         {
+            // 여기임
             if (StageData.Instance.UnitsPosition.ContainsKey(vector)) continue;
-            list.Add(new Vector2Int(vector.Item1, vector.Item2));
+            list.Add(vector);
         }
         return true;
     }
@@ -87,10 +89,15 @@ public class RangeViewer : MonoBehaviour
         }
         _viewers.Clear();
     }
+
+    public void SetStateContext(StateContext context)
+    {
+        _context = context;
+    }
     
     // ============================================================
     
-    private Dictionary<(int, int), Node> GetNodeDictionary (int x, int z, int range)
+    private Dictionary<Vector2Int, Node> GetNodeDictionary (int x, int z, int range)
     {
         _range = range;
         _nodeDictionary.Clear(); // 딕셔너리 비우기
@@ -103,19 +110,19 @@ public class RangeViewer : MonoBehaviour
             if (IsOldCheap(currentNode)) continue; // 신규&최소비용 검사
             CheckAdjacency(currentNode);
         }
-        _nodeDictionary.Remove((x, z));
+        _nodeDictionary.Remove(new Vector2Int(x,z));
         return _nodeDictionary;
     }
     
     private bool IsOldCheap(Node node)
     {
-
-        if (!_nodeDictionary.ContainsKey((node.x, node.z)))
+        Vector2Int vector = new Vector2Int(node.x, node.z);
+        if (!_nodeDictionary.ContainsKey(vector))
         {
-            _nodeDictionary.Add((node.x, node.z), node);
+            _nodeDictionary.Add(vector, node);
             return false;
         }
-        Node old = _nodeDictionary[(node.x, node.z)];
+        Node old = _nodeDictionary[vector];
         if (old == node) return false;
         return node.CompareTo(old) >= 0;
     }
@@ -131,7 +138,7 @@ public class RangeViewer : MonoBehaviour
     private void TryAddNode(int x, int z, Node node)
     {
         if (!IsNodeExists(x, z)) return;
-        if (StageData.Instance.UnitsPosition.ContainsKey((x,z))) return;
+        if (StageData.Instance.UnitsPosition.ContainsKey(new Vector2Int(x,z))) return;
         int cost = GetTileCost(x, z) + node.Cost;
         if (cost > _range) return;
         Node newNode = new Node(x, z, cost, node);
@@ -153,7 +160,7 @@ public class RangeViewer : MonoBehaviour
     
     private void InitSearchData()
     {
-        _nodeDictionary = new Dictionary<(int, int), Node>();
+        _nodeDictionary = new Dictionary<Vector2Int, Node>();
         _priorityQueue = new PriorityQueue<Node>();
     }
 }

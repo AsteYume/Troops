@@ -15,25 +15,37 @@ public class StateContext
     public Tile SelectTile => _selectTile;
     public Vector2Int SelectVector => _selectVector;
 
-    public void SetInRangeList(List<Vector2Int> tilesInRange)
+    public void SetList(List<Vector2Int> tilesInRange)
     {
         _tilesInRange = tilesInRange;
     }
 
-    public void SetSelectUnit(Unit unit)
+    public void SetUnit(Unit unit)
     {
         _selectUnit = unit;
     }
 
-    public void SetTilesStack(Stack<Vector2Int> tilesStack)
+    public void SetStack(Stack<Vector2Int> tilesStack)
     {
         _tilesStack = tilesStack;
     }
     
-    public void SetSelectVector(Vector2Int vector)
+    public void SetVector(Vector2Int vector)
     {
         _selectVector = vector;
         MapDataProvider.Instance.TryGetTile(vector.x, vector.y, out _selectTile);
+    }
+
+    public void SetTile(Tile tile)
+    {
+        _selectTile = tile;
+    }
+
+    public void ClearRange()
+    {
+        SetList(null);
+        SetStack(null);
+        SetTile(null);
     }
 
 }

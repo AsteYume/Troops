@@ -4,12 +4,16 @@ using UnityEngine;
 public class StateManager : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
+    [SerializeField] private RangeViewer _rangeViewer;
+    [SerializeField] private UnitMover _mover;
     
     private static StateManager _instance;
     private State _currentState;
     private StateContext _context;
     private IdleState _idleState;
+    private SelectMoveState _selectMoveState;
     private MoveState _moveState;
+    private EnemySightState _enemySightState;
     
     // ============================================================
     
@@ -51,6 +55,11 @@ public class StateManager : MonoBehaviour
     
     // ============================================================
     
+    public void NextState() // forTest
+    {
+        EnterState(StateEnum.Idle);
+    }
+    
     private void ChangeState(StateEnum newState)
     {
         _currentState.StateEnd -= ChangeState;
@@ -63,6 +72,7 @@ public class StateManager : MonoBehaviour
         _currentState = GetState(newStateEnum);
         _currentState.StateEnd += ChangeState;
         _currentState.OnEnter();
+        Debug.Log($"{CurrentState}");
         OnStateStart?.Invoke(newStateEnum);
     }
     
@@ -74,6 +84,10 @@ public class StateManager : MonoBehaviour
                 return _idleState;
             case StateEnum.Move:
                 return _moveState;
+            case StateEnum.SelectMove:
+                return _selectMoveState;
+            case StateEnum.EnemySight:
+                return _enemySightState;
             default:
                 return _idleState; // 실행되면 안됨
         }
@@ -83,8 +97,10 @@ public class StateManager : MonoBehaviour
     {
         _context = new StateContext();
         _idleState = new IdleState(_inputReader, _context);
-        _moveState = new MoveState(this, _context);
-        EnterState(StateEnum.Idle);
+        _enemySightState = new EnemySightState(_rangeViewer, _inputReader, _context);
+        _selectMoveState = new SelectMoveState(_inputReader, _rangeViewer, _context);
+        _moveState = new MoveState(_mover, _rangeViewer, _context);
+        _rangeViewer.SetStateContext(_context);
     }
     
     

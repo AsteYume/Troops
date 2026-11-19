@@ -25,11 +25,11 @@ public class StageData
     private List<AllyUnit> _allyUnits = new();
     private List<EnemyUnit> _enemyUnits = new();
     private Dictionary<EnemyAIGroup, EnemyAI> _enemyAis = new();
-    private Dictionary<(int, int), Unit> _unitsPosition = new();
+    private Dictionary<Vector2Int, Unit> _unitsPosition = new();
     
     // ============================================================
     
-    public Dictionary<(int, int), Unit> UnitsPosition => _unitsPosition;
+    public Dictionary<Vector2Int, Unit> UnitsPosition => _unitsPosition;
     public List<AllyUnit> AllyUnits => _allyUnits;
     public List<EnemyUnit> EnemyUnits => _enemyUnits;
     
@@ -53,8 +53,8 @@ public class StageData
 
     public void MoveUnit(Unit unit, Vector2Int targetPosition)
     {
-        _unitsPosition.Remove((unit.X, unit.Z));
-        _unitsPosition.Add((targetPosition.x, targetPosition.y), unit);
+        _unitsPosition.Remove(new Vector2Int(unit.X, unit.Z));
+        _unitsPosition.Add(targetPosition, unit);
     }
 
     public void SetMapSize(int mapSize)
@@ -69,7 +69,7 @@ public class StageData
 
     public bool TryGetUnit(int x, int z, out Unit unit)
     {
-        return _unitsPosition.TryGetValue((x, z), out unit);
+        return _unitsPosition.TryGetValue(new Vector2Int(x,z), out unit);
     }
     
     
@@ -90,26 +90,26 @@ public class StageData
 
     public void RemoveAlly(AllyUnit allyUnit)
     {
-        _unitsPosition.Remove((allyUnit.X, allyUnit.Z));
+        _unitsPosition.Remove(new Vector2Int(allyUnit.X, allyUnit.Z));
         _allyUnits.Remove(allyUnit);
     }
 
     public void AddAlly(AllyUnit allyUnit)
     {
         _allyUnits.Add(allyUnit);
-        _unitsPosition.Add((allyUnit.X,allyUnit.Z), allyUnit);
+        _unitsPosition.Add(new Vector2Int(allyUnit.X, allyUnit.Z), allyUnit);
     }
 
     public void RemoveEnemy(EnemyUnit enemyUnit)
     {
-        _unitsPosition.Remove((enemyUnit.X, enemyUnit.Z));
+        _unitsPosition.Remove(new Vector2Int(enemyUnit.X, enemyUnit.Z));
         _enemyUnits.Remove(enemyUnit);
     }
 
     public void AddEnemy(EnemyUnit enemyUnit)
     {
         _enemyUnits.Add(enemyUnit);
-        _unitsPosition.Add((enemyUnit.X,enemyUnit.Z), enemyUnit);
+        _unitsPosition.Add(new Vector2Int(enemyUnit.X, enemyUnit.Z), enemyUnit);
     }
     
     public void SetStage(int stageNumber)

@@ -25,27 +25,26 @@ public class SelectMoveState : State
     public override void OnEnter()
     {
         _rangeViewer.CalculateMovement(_stateContext.SelectVector, _stateContext.SelectUnit.MoveRange, out var list);
-        _stateContext.SetInRangeList(list);
-        _inputReader.Confirm += OnLeftClick;
-        _inputReader.Cancel += OnRightClick;
+        _stateContext.SetList(list);
+        _inputReader.Confirm += OnConfirm;
+        _inputReader.Cancel += OnCancel;
     }
 
     public override void OnExit()
     {
-        _inputReader.Confirm -= OnLeftClick;
-        _inputReader.Cancel -= OnRightClick;
+        _inputReader.Confirm -= OnConfirm;
+        _inputReader.Cancel -= OnCancel;
     }
     
     // ============================================================
     
     // 우클릭시엔 - IdleState로
-    
-    private void OnRightClick()
+    private void OnCancel()
     {
         SetIdleState();
     }
     
-    private void OnLeftClick()
+    private void OnConfirm()
     {
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
         if (_stateContext.SelectVector == vec) // 클릭한곳이 자기 자신 위치면 - 스킬준비
@@ -56,7 +55,7 @@ public class SelectMoveState : State
         }
         if (_stateContext.TilesInRange.Contains(vec)) // 클릭한곳이 이동 범위 이내면 - 이동실행
         {
-            _stateContext.SetSelectVector(vec);
+            _stateContext.SetVector(vec);
             StateEnd?.Invoke(StateEnum.Move);
             return;
         }
@@ -74,12 +73,12 @@ public class SelectMoveState : State
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-                    break;
             }
             ClearView();
-            _stateContext.SetSelectVector(vec);
-            _stateContext.SetSelectUnit(unit);
+            _stateContext.SetVector(vec);
+            _stateContext.SetUnit(unit);
             StateEnd?.Invoke(nextState);
+            return;
         }
         SetIdleState(); // 그 외엔 - IdleState로
     }
@@ -87,15 +86,16 @@ public class SelectMoveState : State
     private void SetIdleState()
     {
         ClearView();
-        _stateContext.SetSelectVector(default);
-        _stateContext.SetSelectUnit(null);
+        _stateContext.SetVector(default);
+        _stateContext.SetUnit(null);
         StateEnd?.Invoke(StateEnum.Idle);
     }
+    
 
     private void ClearView()
     {
         _rangeViewer.ClearViewerObject();
-        _stateContext.SetInRangeList(null);
+        _stateContext.SetList(null);
     }
     
     // ============================================================
