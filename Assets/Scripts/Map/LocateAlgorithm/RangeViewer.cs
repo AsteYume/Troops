@@ -45,11 +45,13 @@ public class RangeViewer : MonoBehaviour
         PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min),true);
     }
 
-    public void CalculateMovement(Vector2Int vec, int range)
+    public bool CalculateMovement(Vector2Int vec, int range, out List<Vector2Int> list)
     {
         ClearViewerObject();
         GetNodeDictionary(vec.x, vec.y, range);
-        if (TrySeeMovement(out var list)) PlaceViewer(list,false);
+        if (!TrySeeMovement(out list)) return false;
+        PlaceViewer(list, false);
+        return true;
     }
 
     public bool TrySeeMovement(out List<Vector2Int> list)

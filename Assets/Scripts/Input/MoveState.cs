@@ -55,7 +55,7 @@ public class MoveState : State
     {
         // 들어올때 
         _stack = _context.TilesStack;
-        _currentUnit = _context.CurrentUnit;
+        _currentUnit = _context.SelectUnit;
         _goal = _currentUnit.Object.transform.position;
     }
 

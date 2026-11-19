@@ -7,12 +7,15 @@ public class StateContext
     private List<Vector2Int> _tilesInRange;
     private Unit _selectUnit;
     private Tile _selectTile;
+    private Vector2Int _selectVector;
     
     public Stack<Vector2Int> TilesStack => _tilesStack;
     public List<Vector2Int> TilesInRange => _tilesInRange;
-    public Unit CurrentUnit => _selectUnit;
+    public Unit SelectUnit => _selectUnit;
+    public Tile SelectTile => _selectTile;
+    public Vector2Int SelectVector => _selectVector;
 
-    public void SetTilesInRange(List<Vector2Int> tilesInRange)
+    public void SetInRangeList(List<Vector2Int> tilesInRange)
     {
         _tilesInRange = tilesInRange;
     }
@@ -27,8 +30,10 @@ public class StateContext
         _tilesStack = tilesStack;
     }
     
-    public bool TrySetSelectTile(Vector2Int vector)
+    public void SetSelectVector(Vector2Int vector)
     {
-        return MapDataProvider.Instance.TryGetTile(vector.x, vector.y, out _selectTile);
+        _selectVector = vector;
+        MapDataProvider.Instance.TryGetTile(vector.x, vector.y, out _selectTile);
     }
+
 }

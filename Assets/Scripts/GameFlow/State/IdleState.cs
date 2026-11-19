@@ -5,14 +5,20 @@ public class IdleState : State
 {
     private InputReader _inputReader;
     private StateContext _stateContext;
+    
+    // ============================================================
 
     public override event Action<StateEnum> StateEnd;
+    
+    // ============================================================
 
     public IdleState (InputReader inputReader, StateContext stateContext)
     {
         _inputReader = inputReader;
         _stateContext = stateContext;
     }
+    
+    // ============================================================
     
     public override void OnEnter()
     {
@@ -23,12 +29,14 @@ public class IdleState : State
     {
         _inputReader.Confirm -= OnClick;
     }
+    
+    // ============================================================
 
 
     private void OnClick()
     {
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
-        if (!TryGetUnit(vec, out var unit)) return;
+        if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out var unit)) return;
         StateEnum nextState;
         switch (unit.Team)
         {
@@ -42,13 +50,9 @@ public class IdleState : State
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        _stateContext.SetSelectVector(vec);
         _stateContext.SetSelectUnit(unit);
         StateEnd?.Invoke(nextState);
-    }
-    
-    private bool TryGetUnit(Vector2Int vec, out Unit unit)
-    {
-        return StageData.Instance.TryGetUnit(vec.x, vec.y, out unit);
     }
     
 }
