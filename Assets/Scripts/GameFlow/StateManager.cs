@@ -88,6 +88,8 @@ public class StateManager : MonoBehaviour
                 return _selectMoveState;
             case StateEnum.EnemySight:
                 return _enemySightState;
+            case StateEnum.SelectSkill:
+                
             default:
                 return _idleState; // 실행되면 안됨
         }

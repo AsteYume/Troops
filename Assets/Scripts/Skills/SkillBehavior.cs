@@ -68,14 +68,13 @@ public class SkillBehavior
     public bool CanAttack(WeaponData data, Vector2Int target, Unit attacker, List<Vector2Int> attackRange)
     {
         if (!attackRange.Contains(target)) return false;
+        if (data.IsNeedMount && !attacker.IsMounted) return false;
         switch (data.AttackType)
         {
             case WeaponAttackType.SingleTarget:
                 return Positions.TryGetValue(target, out Unit unit) && unit.Team != attacker.Team;
             case WeaponAttackType.RadiusCircle:
             case WeaponAttackType.RadiusCone:
-                if (!data.IsNeedMount) return true;
-                return attacker.IsMount;
             default:
                 break;
         }

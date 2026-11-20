@@ -18,6 +18,7 @@ public abstract class Unit
     protected int _z;
     protected int _unitNumber;
     protected bool _hasMoved;
+    protected bool _isMounted;
     
     protected GameObject _object;
     
@@ -44,7 +45,13 @@ public abstract class Unit
     public int Z => _z;
     public GameObject Object => _object;
     public bool HasMoved => _hasMoved;
-    public bool IsMount;
+    public bool IsMounted => _isMounted;
+    
+    public bool IsPrimaryExist => _primary != null;
+    public bool IsSecondaryExist => _secondary != null;
+    public bool IsTertiaryExist => _tertiary != null;
+    
+    
 
     public bool CanAction
     {
@@ -109,24 +116,39 @@ public abstract class Unit
         _object = prefab;
     }
 
-    private bool CheckCost(int slot)
+    public bool CheckCost(int slot)
     {
         switch (slot)
         {
             case 1:
-                return _primary != null 
+                return IsPrimaryExist
                        && _primary.ActiveCost <= _activePoint 
                        && _primary.SupplyCost <= _supply;
             case 2:
-                return _secondary != null
+                return IsSecondaryExist
                        && _secondary.ActiveCost <= _activePoint
                        && _secondary.SupplyCost <=  _supply;
             case 3:
-                return _tertiary != null 
+                return IsTertiaryExist 
                        && _tertiary.ActiveCost <= _activePoint 
                        && _tertiary.SupplyCost <= _supply;
             default:
                 return false;
+        }
+    }
+    
+    public SkillSO GetSkill(int slot)
+    {
+        switch (slot)
+        {
+            case 1:
+                return _primary;
+            case 2:
+                return _secondary;
+            case 3:
+                return _tertiary;
+            default:
+                return null;
         }
     }
 

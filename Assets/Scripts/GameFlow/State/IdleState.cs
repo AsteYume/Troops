@@ -23,18 +23,18 @@ public class IdleState : State
     public override void OnEnter()
     {
         Debug.Log("Entering IdleState");
-        _inputReader.Confirm += OnClick;
+        _inputReader.Confirm += OnOnConfirm;
     }
 
     public override void OnExit()
     {
-        _inputReader.Confirm -= OnClick;
+        _inputReader.Confirm -= OnOnConfirm;
     }
     
     // ============================================================
 
 
-    private void OnClick()
+    private void OnOnConfirm()
     {
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
         StateEnum nextState;

@@ -49,6 +49,7 @@ public class SelectMoveState : State
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
         if (_stateContext.SelectVector == vec) // 클릭한곳이 자기 자신 위치면 - 스킬준비
         {
+            Debug.Log($"스킬 준비 진입");
             ClearView();
             StateEnd?.Invoke(StateEnum.SelectSkill);
             return;
