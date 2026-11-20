@@ -92,7 +92,7 @@ public class WeaponBehavior
     
     private List<Vector2Int> CheckWeaponRange(WeaponData data, Unit unit)
     {
-        Vector2Int vector = new Vector2Int(unit.X, unit.Z);
+        Vector2Int vector = unit.Vector2;
         switch (data.AttackType)
         {
             case WeaponAttackType.SingleTarget:

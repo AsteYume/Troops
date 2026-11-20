@@ -49,19 +49,20 @@ public class RangeViewer : MonoBehaviour
     public bool CalculateMovement(Vector2Int vec, int range, out List<Vector2Int> list)
     {
         ClearViewerObject();
-        GetNodeDictionary(vec.x, vec.y, range);
+        _nodeDictionary.Clear(); // 딕셔너리 비우기
+        _nodeDictionary = GetNodeDictionary(vec.x, vec.y, range);
         if (!TrySeeMovement(out list)) return false;
         PlaceViewer(list, false);
         return true;
     }
 
-    public bool TrySeeMovement(out List<Vector2Int> list)
+    private bool TrySeeMovement(out List<Vector2Int> list)
     {
         list = new List<Vector2Int>();
         if (_nodeDictionary.Count == 0) return false;
         foreach (Vector2Int vector in _nodeDictionary.Keys)
         {
-            // 여기임
+            // 여기임 < 뭐가
             if (StageData.Instance.UnitsPosition.ContainsKey(vector)) continue;
             list.Add(vector);
         }
@@ -98,52 +99,56 @@ public class RangeViewer : MonoBehaviour
     
     // ============================================================
     
-    private Dictionary<Vector2Int, Node> GetNodeDictionary (int x, int z, int range)
+    public Dictionary<Vector2Int, Node> GetNodeDictionary (int x, int z, int range)
     {
+        Dictionary<Vector2Int, Node> nodeDictionary = new Dictionary<Vector2Int, Node>();
         _range = range;
-        _nodeDictionary.Clear(); // 딕셔너리 비우기
         Node start = new Node(x, z, 0, null); // 시작 노드 지정
         
         _priorityQueue.Enqueue(start); // 시작 노드 큐에 추가
         while (_priorityQueue.Count > 0) // 큐가 빌때까지 반복
         {
             Node currentNode = _priorityQueue.Dequeue(); // 맨 앞 노드 하나 검사
-            if (IsOldCheap(currentNode)) continue; // 신규&최소비용 검사
-            CheckAdjacency(currentNode);
-        }
-        _nodeDictionary.Remove(new Vector2Int(x,z));
-        return _nodeDictionary;
+            if (IsOldCheap(currentNode, nodeDictionary, out nodeDictionary)) continue; // 신규&최소비용 검사
+            CheckAdjacency(currentNode, nodeDictionary, out nodeDictionary);
+        } 
+        nodeDictionary.Remove(new Vector2Int(x,z));
+        return nodeDictionary;
     }
     
-    private bool IsOldCheap(Node node)
+    private bool IsOldCheap(Node node
+        , Dictionary<Vector2Int, Node> nodeDictionary, out Dictionary<Vector2Int, Node> result)
     {
+        result = nodeDictionary;
         Vector2Int vector = new Vector2Int(node.x, node.z);
-        if (!_nodeDictionary.ContainsKey(vector))
+        if (!nodeDictionary.TryGetValue(vector, out var old))
         {
-            _nodeDictionary.Add(vector, node);
+            nodeDictionary.Add(vector, node);
             return false;
         }
-        Node old = _nodeDictionary[vector];
         if (old == node) return false;
         return node.CompareTo(old) >= 0;
     }
 
-    private void CheckAdjacency(Node node)
+    private void CheckAdjacency(Node node
+        , Dictionary<Vector2Int, Node> nodeDictionary, out Dictionary<Vector2Int, Node> result)
     {
-        TryAddNode(node.x,node.z+1, node); // 북
-        TryAddNode(node.x,node.z-1, node); // 남
-        TryAddNode(node.x+1,node.z, node); // 동
-        TryAddNode(node.x-1,node.z, node); // 서
+        result = nodeDictionary;
+        TryAddNode(node.x,node.z+1, node, nodeDictionary, nodeDictionary); // 북
+        TryAddNode(node.x,node.z-1, node, nodeDictionary, nodeDictionary); // 남
+        TryAddNode(node.x+1,node.z, node, nodeDictionary, nodeDictionary); // 동
+        TryAddNode(node.x-1,node.z, node, nodeDictionary, nodeDictionary); // 서
     }
 
-    private void TryAddNode(int x, int z, Node node)
+    private void TryAddNode(int x, int z, Node node
+        , Dictionary<Vector2Int, Node> nodeDictionary, Dictionary<Vector2Int, Node> result)
     {
         if (!IsNodeExists(x, z)) return;
         if (StageData.Instance.UnitsPosition.ContainsKey(new Vector2Int(x,z))) return;
         int cost = GetTileCost(x, z) + node.Cost;
         if (cost > _range) return;
         Node newNode = new Node(x, z, cost, node);
-        if (IsOldCheap(newNode)) return;
+        if (IsOldCheap(newNode, nodeDictionary, out nodeDictionary)) return;
         _priorityQueue.Enqueue(newNode);
     }
 

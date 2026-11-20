@@ -15,8 +15,7 @@ public class UnitPlacer : MonoBehaviour
     {
         foreach (AllyUnit data in StageData.Instance.AllyUnits)
         {
-            int x = data.X, z = data.Z;
-            Vector3 vec = new  Vector3(x, 0, z);
+            Vector3 vec = new  Vector3(data.Vector2.x, 0, data.Vector2.y);
             GameObject prefab = _provider.GetPrefab(data.UnitType, UnitTeam.Blue);
             GameObject unit = Instantiate(prefab);
             data.SetPrefab(unit);
@@ -28,8 +27,7 @@ public class UnitPlacer : MonoBehaviour
     {
         foreach (EnemyUnit data in StageData.Instance.EnemyUnits)
         {
-            int x = data.X, z = data.Z;
-            Vector3 vec = new Vector3(x, 0, z);
+            Vector3 vec = new  Vector3(data.Vector2.x, 0, data.Vector2.y);
             GameObject prefab = _provider.GetPrefab(data.UnitType, UnitTeam.Red);
             GameObject unit = Instantiate(prefab);
             data.SetPrefab(unit);

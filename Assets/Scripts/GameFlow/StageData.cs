@@ -53,7 +53,7 @@ public class StageData
 
     public void MoveUnit(Unit unit, Vector2Int targetPosition)
     {
-        _unitsPosition.Remove(new Vector2Int(unit.X, unit.Z));
+        _unitsPosition.Remove(unit.Vector2);
         _unitsPosition.Add(targetPosition, unit);
     }
 
@@ -90,26 +90,26 @@ public class StageData
 
     public void RemoveAlly(AllyUnit allyUnit)
     {
-        _unitsPosition.Remove(new Vector2Int(allyUnit.X, allyUnit.Z));
+        _unitsPosition.Remove(allyUnit.Vector2);
         _allyUnits.Remove(allyUnit);
     }
 
     public void AddAlly(AllyUnit allyUnit)
     {
         _allyUnits.Add(allyUnit);
-        _unitsPosition.Add(new Vector2Int(allyUnit.X, allyUnit.Z), allyUnit);
+        _unitsPosition.Add(allyUnit.Vector2, allyUnit);
     }
 
     public void RemoveEnemy(EnemyUnit enemyUnit)
     {
-        _unitsPosition.Remove(new Vector2Int(enemyUnit.X, enemyUnit.Z));
+        _unitsPosition.Remove(enemyUnit.Vector2);
         _enemyUnits.Remove(enemyUnit);
     }
 
     public void AddEnemy(EnemyUnit enemyUnit)
     {
         _enemyUnits.Add(enemyUnit);
-        _unitsPosition.Add(new Vector2Int(enemyUnit.X, enemyUnit.Z), enemyUnit);
+        _unitsPosition.Add(enemyUnit.Vector2, enemyUnit);
     }
     
     public void SetStage(int stageNumber)

@@ -3,29 +3,28 @@ using UnityEngine;
 
 public abstract class Unit
 {
-    protected UnitTypeEnum _unitType;
-    protected string _unitName;
-    protected int _maxHealth;
-    protected int _maxSupply;
-    protected int _maxActivePoint;
-    protected int _activeRecover;
-    protected int _sight;
-    protected int _moveRange;
-    protected SkillSO _primary;
-    protected SkillSO _secondary;
-    protected SkillSO _tertiary;
-    protected int _x;
-    protected int _z;
-    protected int _unitNumber;
-    protected bool _hasMoved;
-    protected bool _isMounted;
+    private UnitTypeEnum _unitType;
+    private string _unitName;
+    private int _maxHealth;
+    private int _maxSupply;
+    private int _maxActivePoint;
+    private int _activeRecover;
+    private int _sight;
+    private int _moveRange;
+    private SkillSO _primary;
+    private SkillSO _secondary;
+    private SkillSO _tertiary;
+    private Vector2Int _vector2;
+    private int _unitNumber;
+    private bool _hasMoved;
+    private bool _isMounted;
     
-    protected GameObject _object;
+    private GameObject _object;
     
-    protected int _health;
-    protected int _supply;
-    protected int _activePoint;
-    protected DirectionEnum _direction;
+    private int _health;
+    private int _supply;
+    private int _activePoint;
+    private DirectionEnum _direction;
     protected UnitTeam _team;
 
     public event Action OnDead;
@@ -41,8 +40,7 @@ public abstract class Unit
     public SkillSO Primary => _primary;
     public SkillSO Secondary => _secondary;
     public SkillSO Tertiary => _tertiary;
-    public int X => _x;
-    public int Z => _z;
+    public Vector2Int Vector2 => _vector2;
     public GameObject Object => _object;
     public bool HasMoved => _hasMoved;
     public bool IsMounted => _isMounted;
@@ -77,8 +75,7 @@ public abstract class Unit
     public void MoveDone(Vector2Int point)
     {
         _hasMoved = true;
-        _x = point.x;
-        _z = point.y;
+        _vector2 = point;
     }
 
     public void NextTurn()
@@ -101,8 +98,7 @@ public abstract class Unit
         _primary = unitData.Primary;
         _secondary = unitData.Secondary;
         _tertiary = unitData.Tertiary;
-        _x = x;
-        _z = z;
+        _vector2 = new Vector2Int(x, z);
         _unitNumber =  number;
 
         _health = _maxHealth;

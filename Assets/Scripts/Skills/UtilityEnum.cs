@@ -1,7 +1,7 @@
 public enum UtilityEnum
 {
     None = -1,
-    Immediately,
+    SelectDirection,
     TargetAlly,
     TargetTile,
 }

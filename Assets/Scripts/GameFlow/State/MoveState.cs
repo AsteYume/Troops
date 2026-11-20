@@ -64,6 +64,7 @@ public class MoveState : State
         _rangeViewer.IsReachableTile(_context.SelectVector.x, _context.SelectVector.y,out Node node);
         _context.SetStack(LocateAlgorithm.ReadNodePath(node));
         _goal = _context.SelectVector;
+        StageData.Instance.MoveUnit(_context.SelectUnit, _goal);
         SetNextPoint();
     }
     
