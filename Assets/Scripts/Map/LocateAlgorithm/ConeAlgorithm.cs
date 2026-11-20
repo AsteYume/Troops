@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class ConeAlgorithm
 {
+    
     public static List<Vector2Int> Cone(Vector2Int center, int range, DirectionEnum direction, UnitTeam target)
     {
         List<Vector2Int> radius = CheckRadius(range, target);

@@ -34,16 +34,16 @@ public class RangeViewer : MonoBehaviour
         return true;
     }
 
-    public void ConeView(Vector2Int vec, int range,DirectionEnum direction, UnitTeam target, bool isSkill)
+    public void ConeView(Vector2Int vec, int range,DirectionEnum direction, UnitTeam target, bool isRed)
     {
         ClearViewerObject();
-        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction,target),isSkill);
+        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction,target),isRed);
     }
 
-    public void BfsView(Vector2Int vec, int max, int min, UnitTeam target, bool isSkill)
+    public void BfsView(Vector2Int vec, int max, int min, UnitTeam target, bool isRed)
     {
         ClearViewerObject();
-        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min,target),isSkill);
+        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min,target),isRed);
     }
 
     public bool CalculateMovement(Vector2Int vec, int range, out List<Vector2Int> list)
@@ -70,12 +70,12 @@ public class RangeViewer : MonoBehaviour
     
     
 
-    private void PlaceViewer(List<Vector2Int> positions, bool isSkill)
+    private void PlaceViewer(List<Vector2Int> positions, bool isRed)
     {
         foreach (var vec in positions)
         {
             Vector3 pos = new Vector3(vec.x, 0, vec.y);
-            GameObject viewer = isSkill ? Instantiate(_rangeViewerPrefab, transform)
+            GameObject viewer = isRed ? Instantiate(_rangeViewerPrefab, transform)
                     : Instantiate(_moveViewerPrefab,transform);
             viewer.transform.position = pos;
             _viewers.Add(viewer);

@@ -26,7 +26,8 @@ public class EnemySightState : State
     {
         _inputReader.Confirm += OnConfirm;
         _inputReader.Cancel += OnCancel;
-        _rangeViewer.BfsView(_stateContext.SelectVector, _stateContext.SelectUnit.Sight, 0);
+        _rangeViewer.BfsView(_stateContext.SelectVector
+            , _stateContext.SelectUnit.Sight, 0, UnitTeam.None, true);
     }
 
     public override void OnExit()

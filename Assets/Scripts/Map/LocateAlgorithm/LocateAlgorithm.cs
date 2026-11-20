@@ -10,6 +10,15 @@ public static class LocateAlgorithm
         return Bfs(vec, maxRange, minRange, target);
     }
     
+    public static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange, UnitTeam target)
+    {
+        List<Vector2Int> _maxTileArray = new();
+        List<Vector2Int> _minTileArray = new();
+        _maxTileArray = GetTilesInRange(maxRange, center, target);
+        _minTileArray = GetTilesInRange(minRange, center, target);
+        return _maxTileArray.Except(_minTileArray).ToList();
+    }
+
     public static Stack<Vector2Int> ReadNodePath(Node end)
     {
         Stack<Vector2Int> stack = new Stack<Vector2Int>();
@@ -20,20 +29,10 @@ public static class LocateAlgorithm
             stack.Push(nextPos);
             currentNode = currentNode.Parent;
             nextPos = new Vector2Int(currentNode.x, currentNode.z);
-        }
-        while(currentNode.Parent != null);
+        } while (currentNode.Parent != null);
+
         return stack;
     }
-
-    private static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange, UnitTeam target)
-    {
-        List<Vector2Int> _maxTileArray = new();
-        List<Vector2Int> _minTileArray = new();
-        _maxTileArray = GetTilesInRange(maxRange, center, target);
-        _minTileArray = GetTilesInRange(minRange, center, target);
-        return _maxTileArray.Except(_minTileArray).ToList();
-    }
-    
     
     private static List<Vector2Int> GetTilesInRange(int range, Vector2Int center, UnitTeam target)
     { 

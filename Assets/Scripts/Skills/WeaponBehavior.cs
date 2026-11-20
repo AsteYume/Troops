@@ -1,26 +1,24 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
-public class SkillBehavior
+public class WeaponBehavior
 {
     [SerializeField] private RangeViewer _rangeViewer;
     
     private Dictionary<Vector2Int, Unit> Positions => StageData.Instance.UnitsPosition;
-
-
-
-    public void SingleTargetAttack(WeaponData data, Vector2Int target)
+    
+    public void ProjectileAttack(WeaponData data, Vector2Int target)
     {
         Tile mainTile = MapDataProvider.Instance.TileArray[target.x, target.y];
         Unit mainTarget = Positions[target];
         int damage = ProjectileDamage(data.Pierce, data.Accuracy, data.Shots, data.Damage, mainTile);
         mainTarget.TakeDamage(damage);
+        Debug.Log($"단일 공격 : {mainTarget}에게 {damage}의 데미지");
     }
     
     
-    
-    
-
     public bool IsUnitsInRange(WeaponData data
         , List<Vector2Int> range
         , out List<Unit> inRange)
@@ -92,18 +90,19 @@ public class SkillBehavior
     }
     
     
-    private List<Vector2Int> CheckWeaponRange(WeaponData data, Unit unit) 
+    private List<Vector2Int> CheckWeaponRange(WeaponData data, Unit unit)
     {
+        Vector2Int vector = new Vector2Int(unit.X, unit.Z);
         switch (data.AttackType)
         {
             case WeaponAttackType.SingleTarget:
+                return LocateAlgorithm.Bfs(vector, data.MinRange, data.MaxRange,unit.GetEnemyTeam());
             case WeaponAttackType.RadiusCircle:
-                return LocateAlgorithm.Bfs(unit.X, unit.Z, data.MinRange, data.MaxRange,unit.GetEnemyTeam());
+                return LocateAlgorithm.Bfs(vector, data.MinRange, data.MaxRange,UnitTeam.None);
             case WeaponAttackType.RadiusCone:
-                break;
+                return ConeAlgorithm.Cone(vector, data.MaxRange, unit.Direction, UnitTeam.None);
             default:
-                break;
+                throw new ArgumentOutOfRangeException();
         }
-        return null;
     }
 }
