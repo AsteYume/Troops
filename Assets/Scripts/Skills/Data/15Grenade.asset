@@ -23,8 +23,8 @@ MonoBehaviour:
   _damage: 100
   _shots: 1
   _pierce: 2
-  _minRange: 3
+  _minRange: 2
   _maxRange: 4
-  _radius: 3
+  _radius: 2
   _accuracy: 50
   _isNeedMount: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectSkillState : State
@@ -6,6 +7,7 @@ public class SelectSkillState : State
     private InputReader _inputReader;
     private StateContext _stateContext;
     private SkillSelectUI _skillSelectUI;
+    private RangeViewer _rangeViewer;
     
     // ============================================================
 
@@ -13,8 +15,9 @@ public class SelectSkillState : State
     
     // ============================================================
 
-    public SelectSkillState(InputReader inputReader, StateContext stateContext,  SkillSelectUI skillSelectUI)
+    public SelectSkillState(InputReader inputReader, StateContext stateContext,  SkillSelectUI skillSelectUI, RangeViewer rangeViewer)
     {
+        _rangeViewer = rangeViewer;
         _inputReader = inputReader;
         _stateContext = stateContext;
         _skillSelectUI = skillSelectUI;
@@ -24,6 +27,12 @@ public class SelectSkillState : State
     
     public override void OnEnter()
     {
+        _rangeViewer.ClearViewerObject();
+        List<Vector2Int> tile = new List<Vector2Int>();
+        tile.Add(_stateContext.SelectVector);
+        _rangeViewer.ListView(tile,MarkerType.UnitGreen);
+        
+        _skillSelectUI.OnSkillSelected += OnSelect;
         _inputReader.Confirm += OnConfirm;
         _inputReader.Cancel += OnCancel;
         _skillSelectUI.OpenSkillUI(_stateContext.SelectUnit);
@@ -31,8 +40,11 @@ public class SelectSkillState : State
 
     public override void OnExit()
     {
+        _rangeViewer.ClearViewerObject();
+        _skillSelectUI.OnSkillSelected -= OnSelect;
         _inputReader.Confirm -= OnConfirm;
         _inputReader.Cancel -= OnCancel;
+        _skillSelectUI.CloseSkillUI();
     }
     
     // ============================================================
@@ -66,31 +78,15 @@ public class SelectSkillState : State
         }
         _stateContext.SetVector(vec);
         _stateContext.SetUnit(unit);
-        _skillSelectUI.CloseSkillUI();
         StateEnd?.Invoke(nextState);
     }
 
-    public void OnSkillSelect(int slot)
+    public void OnSelect(SkillSlotEnum slot)
     {
         if (!_stateContext.SelectUnit.CheckCost(slot)) return;
-        SkillSO skill = _stateContext.SelectUnit.GetSkill(slot);
-        switch (skill.SkillType)
-        {
-            case SkillsEnum.Attack:
-                _stateContext.SetWeapon((WeaponData)skill);
-                break;
-            case SkillsEnum.Utility:
-                _stateContext.SetUtility((UtilityData)skill);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        _stateContext.SetSkill(_stateContext.SelectUnit.GetSkill(slot));
+        StateEnd?.Invoke(StateEnum.SelectRange);
     }
-    
-    
-    
-    
-    
 
     private void SetIdleState()
     {

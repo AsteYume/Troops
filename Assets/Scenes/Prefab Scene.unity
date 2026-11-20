@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 74516561}
   - component: {fileID: 74516560}
   m_Layer: 5
-  m_Name: Button
+  m_Name: TetriaryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 719397479}
   - component: {fileID: 719397478}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PrimaryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,7 +677,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 719397479}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1514209273}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &719397479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,8 +1418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9fc281c1cda3e449c3302395dc4354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeViewer
-  _moveViewerPrefab: {fileID: 1926253227890041109, guid: 8bb51865fb8b6de4ba0c674b901d6835, type: 3}
-  _rangeViewerPrefab: {fileID: 1926253227890041109, guid: b9960146ec31fcf4fbdba81c3eec35eb, type: 3}
+  _tileGreenPrefab: {fileID: 1926253227890041109, guid: 8bb51865fb8b6de4ba0c674b901d6835, type: 3}
+  _tileRedPrefab: {fileID: 1926253227890041109, guid: b9960146ec31fcf4fbdba81c3eec35eb, type: 3}
+  _unitGreenPrefab: {fileID: 5063455442636352190, guid: 5026425493619f2439b3b4fb7f633a64, type: 3}
+  _unitRedPrefab: {fileID: 558149732147778946, guid: 982cdcccd35685a4caab0c172bb9ee02, type: 3}
 --- !u!4 &1400930480
 Transform:
   m_ObjectHideFlags: 0
@@ -1666,9 +1680,9 @@ MonoBehaviour:
   _primaryObj: {fileID: 1847619370}
   _secondaryObj: {fileID: 1646209119}
   _tertiaryObj: {fileID: 125839}
-  _primaryIcon: {fileID: 719397479}
-  _secondaryIcon: {fileID: 1806581772}
-  _tertiaryIcon: {fileID: 74516561}
+  _primaryButton: {fileID: 719397478}
+  _secondaryButton: {fileID: 1806581771}
+  _tertiaryButton: {fileID: 74516560}
 --- !u!1 &1580261283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +2036,7 @@ GameObject:
   - component: {fileID: 1806581772}
   - component: {fileID: 1806581771}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SecondaryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

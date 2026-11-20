@@ -1,4 +1,4 @@
-public enum UtilityEnum
+public enum UtilityType
 {
     None = -1,
     SelectDirection,

@@ -7,12 +7,14 @@ public class SkillSelectUI : MonoBehaviour
     [SerializeField] private GameObject _primaryObj;
     [SerializeField] private GameObject _secondaryObj;
     [SerializeField] private GameObject _tertiaryObj;
-    [SerializeField] private Image _primaryIcon;
-    [SerializeField] private Image _secondaryIcon;
-    [SerializeField] private Image _tertiaryIcon;
+    [SerializeField] private Button _primaryButton;
+    [SerializeField] private Button _secondaryButton;
+    [SerializeField] private Button _tertiaryButton;
     private SkillSO _primary;   
     private SkillSO _secondary;
     private SkillSO _tertiary;
+    
+    public event Action<SkillSlotEnum> OnSkillSelected;
     
     // ============================================================
 
@@ -22,6 +24,22 @@ public class SkillSelectUI : MonoBehaviour
         _secondaryObj.SetActive(false);
         _tertiaryObj.SetActive(false);
     }
+
+    private void OnEnable()
+    {
+        _primaryButton.onClick.AddListener(() => OnSkillSelected(SkillSlotEnum.Primary));
+        _secondaryButton.onClick.AddListener(() => OnSkillSelected(SkillSlotEnum.Secondary));
+        _tertiaryButton.onClick.AddListener(() => OnSkillSelected(SkillSlotEnum.Tertiary));
+    }
+
+    private void OnDisable()
+    {
+        _primaryButton.onClick.RemoveListener(() => OnSkillSelected(SkillSlotEnum.Primary));
+        _secondaryButton.onClick.RemoveListener(() => OnSkillSelected(SkillSlotEnum.Secondary));
+        _tertiaryButton.onClick.RemoveListener(() => OnSkillSelected(SkillSlotEnum.Tertiary));
+    }
+    
+    
     
     public void OpenSkillUI(Unit unit)
     {
@@ -36,22 +54,6 @@ public class SkillSelectUI : MonoBehaviour
         ClearSecondary();
         ClearTertiary();
     }
-
-    public void OnClick(SkillSlotEnum slot)
-    {
-        switch (slot)
-        {
-            case SkillSlotEnum.Primary:
-                // 1번슬롯 스킬 실행
-                break;
-            case SkillSlotEnum.Secondary:
-                break;
-            case SkillSlotEnum.Tertiary:
-                break;
-            default:
-                throw new NullReferenceException();
-        }
-    }
     
     // ============================================================
 
@@ -60,7 +62,7 @@ public class SkillSelectUI : MonoBehaviour
         if (unit.IsPrimaryExist)
         {
             _primary = unit.Primary;
-            _primaryIcon.sprite = _primary.ButtonIcon;
+            _primaryButton.image.sprite = _primary.ButtonIcon;
             _primaryObj.SetActive(true);
         }
         else ClearPrimary();
@@ -71,7 +73,7 @@ public class SkillSelectUI : MonoBehaviour
         if (unit.IsSecondaryExist)
         {
             _secondary = unit.Secondary;
-            _secondaryIcon.sprite = _secondary.ButtonIcon;
+            _secondaryButton.image.sprite = _secondary.ButtonIcon;
             _secondaryObj.SetActive(true);
         }
         else ClearSecondary();
@@ -82,7 +84,7 @@ public class SkillSelectUI : MonoBehaviour
         if (unit.IsTertiaryExist)
         {
             _tertiary = unit.Tertiary;
-            _tertiaryIcon.sprite = _tertiary.ButtonIcon;
+            _tertiaryButton.image.sprite = _tertiary.ButtonIcon;
             _tertiaryObj.SetActive(true);
         }
         else ClearTertiary();
@@ -92,21 +94,21 @@ public class SkillSelectUI : MonoBehaviour
     private void ClearPrimary()
     {
         _primary = null;
-        _primaryIcon.sprite = null;
+        _primaryButton.image.sprite = null;
         _primaryObj.SetActive(false);
     }
 
     private void ClearSecondary()
     {
         _secondary = null;
-        _secondaryIcon.sprite = null;
+        _secondaryButton.image.sprite = null;
         _secondaryObj.SetActive(false);
     }
 
     private void ClearTertiary()
     {
         _tertiary = null;
-        _tertiaryIcon.sprite = null;
+        _tertiaryButton.image.sprite = null;
         _tertiaryObj.SetActive(false);
     }
     

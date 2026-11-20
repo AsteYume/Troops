@@ -38,13 +38,13 @@ public class SkillCalcurator
         List<Vector2Int> result = new List<Vector2Int>();
         switch (utility.UtilityType)
         {
-            case UtilityEnum.SelectDirection :
+            case UtilityType.SelectDirection :
                 result.AddRange(ConeAlgorithm.Cone(center, utility.MaxRange, DirectionEnum.North, UnitTeam.None));
                 result.AddRange(ConeAlgorithm.Cone(center, utility.MaxRange, DirectionEnum.South, UnitTeam.None));
                 result.AddRange(ConeAlgorithm.Cone(center, utility.MaxRange, DirectionEnum.East, UnitTeam.None));
                 result.AddRange(ConeAlgorithm.Cone(center, utility.MaxRange, DirectionEnum.West, UnitTeam.None));
                 break;
-            case UtilityEnum.TargetTile :
+            case UtilityType.TargetTile :
                 break;
             default:
                 throw new NullReferenceException();

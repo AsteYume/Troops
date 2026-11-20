@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public class RangeViewer : MonoBehaviour
 {
-    [SerializeField] GameObject _moveViewerPrefab;
-    [SerializeField] GameObject _rangeViewerPrefab;
+    [SerializeField] GameObject _tileGreenPrefab;
+    [SerializeField] GameObject _tileRedPrefab;
+    [SerializeField] GameObject _unitGreenPrefab;
+    [SerializeField] GameObject _unitRedPrefab;
     
     private List<GameObject> _viewers = new List<GameObject>();
     private StateContext _context;
@@ -34,16 +37,22 @@ public class RangeViewer : MonoBehaviour
         return true;
     }
 
-    public void ConeView(Vector2Int vec, int range,DirectionEnum direction, UnitTeam target, bool isRed)
+    public void ConeView(Vector2Int vec, int range,DirectionEnum direction, UnitTeam target, MarkerType marker)
     {
         ClearViewerObject();
-        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction,target),isRed);
+        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction,target),marker);
     }
 
-    public void BfsView(Vector2Int vec, int max, int min, UnitTeam target, bool isRed)
+    public void BfsView(Vector2Int vec, int max, int min, UnitTeam target, MarkerType marker)
     {
         ClearViewerObject();
-        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min,target),isRed);
+        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min,target),marker);
+    }
+
+    public void ListView(List<Vector2Int> vec, MarkerType marker)
+    {
+        ClearViewerObject();
+        PlaceViewer(vec,marker);
     }
 
     public bool CalculateMovement(Vector2Int vec, int range, out List<Vector2Int> list)
@@ -52,7 +61,7 @@ public class RangeViewer : MonoBehaviour
         _nodeDictionary.Clear(); // 딕셔너리 비우기
         _nodeDictionary = GetNodeDictionary(vec.x, vec.y, range);
         if (!TrySeeMovement(out list)) return false;
-        PlaceViewer(list, false);
+        PlaceViewer(list, MarkerType.TileGreen);
         return true;
     }
 
@@ -71,13 +80,29 @@ public class RangeViewer : MonoBehaviour
     
     
 
-    private void PlaceViewer(List<Vector2Int> positions, bool isRed)
+    private void PlaceViewer(List<Vector2Int> positions, MarkerType marker)
     {
         foreach (var vec in positions)
         {
             Vector3 pos = new Vector3(vec.x, 0, vec.y);
-            GameObject viewer = isRed ? Instantiate(_rangeViewerPrefab, transform)
-                    : Instantiate(_moveViewerPrefab,transform);
+            GameObject viewer;
+            switch (marker)
+            {
+                case MarkerType.TileGreen :
+                    viewer = Instantiate(_tileGreenPrefab, transform);
+                    break;
+                case MarkerType.TileRed :
+                    viewer = Instantiate(_tileRedPrefab, transform);
+                    break;
+                case MarkerType.UnitGreen :
+                    viewer = Instantiate(_unitGreenPrefab, transform);
+                    break;
+                case MarkerType.UnitRed :
+                    viewer = Instantiate(_unitRedPrefab, transform);
+                    break;
+                default:
+                    throw new ArgumentNullException();
+            }
             viewer.transform.position = pos;
             _viewers.Add(viewer);
         }

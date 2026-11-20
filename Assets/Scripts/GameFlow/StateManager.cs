@@ -17,6 +17,7 @@ public class StateManager : MonoBehaviour
     private MoveState _moveState;
     private EnemySightState _enemySightState;
     private SelectSkillState _selectSkillState;
+    private SelectRangeState _selectRangeState;
     
     // ============================================================
     
@@ -46,6 +47,7 @@ public class StateManager : MonoBehaviour
             return;
         }
         _instance = this;
+        DontDestroyOnLoad(this);
     }
     
     // ============================================================
@@ -93,8 +95,11 @@ public class StateManager : MonoBehaviour
                 return _enemySightState;
             case StateEnum.SelectSkill:
                 return _selectSkillState;
+            case StateEnum.SelectRange:
+                return _selectRangeState;
             default:
-                return _idleState; // 실행되면 안됨
+                Debug.Log("StateManager : 예외 경로 실행");
+                return _idleState;
         }
     }
 
@@ -105,10 +110,8 @@ public class StateManager : MonoBehaviour
         _enemySightState = new EnemySightState(_rangeViewer, _inputReader, _context);
         _selectMoveState = new SelectMoveState(_inputReader, _rangeViewer, _context);
         _moveState = new MoveState(_mover, _rangeViewer, _context);
-        _selectSkillState = new SelectSkillState(_inputReader, _context, _skillSelectUI);
+        _selectSkillState = new SelectSkillState(_inputReader, _context, _skillSelectUI, _rangeViewer);
+        _selectRangeState = new SelectRangeState(_inputReader, _rangeViewer, _context);
         _rangeViewer.SetStateContext(_context);
     }
-    
-    
-    
 }

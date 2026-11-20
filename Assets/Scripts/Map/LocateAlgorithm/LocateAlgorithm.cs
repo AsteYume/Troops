@@ -15,8 +15,12 @@ public static class LocateAlgorithm
         List<Vector2Int> _maxTileArray = new();
         List<Vector2Int> _minTileArray = new();
         _maxTileArray = GetTilesInRange(maxRange, center, target);
-        _minTileArray = GetTilesInRange(minRange, center, target);
-        return _maxTileArray.Except(_minTileArray).ToList();
+        if (minRange > 0)
+        {
+            _minTileArray = GetTilesInRange(minRange - 1, center, target);
+            return _maxTileArray.Except(_minTileArray).ToList();
+        }
+        return _maxTileArray;
     }
 
     public static Stack<Vector2Int> ReadNodePath(Node end)

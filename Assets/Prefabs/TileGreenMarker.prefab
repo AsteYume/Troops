@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4537379530993332777}
   m_Layer: 0
-  m_Name: MoveRange
+  m_Name: TileGreenMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

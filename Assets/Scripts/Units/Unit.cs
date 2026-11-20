@@ -56,7 +56,7 @@ public abstract class Unit
         get
         {
             if (!_hasMoved) return true;
-            return CheckCost(1) || CheckCost(2) || CheckCost(3);
+            return CheckCost(SkillSlotEnum.Primary) || CheckCost(SkillSlotEnum.Secondary) || CheckCost(SkillSlotEnum.Tertiary);
         }
     }
     
@@ -112,19 +112,19 @@ public abstract class Unit
         _object = prefab;
     }
 
-    public bool CheckCost(int slot)
+    public bool CheckCost(SkillSlotEnum slot)
     {
         switch (slot)
         {
-            case 1:
+            case SkillSlotEnum.Primary:
                 return IsPrimaryExist
                        && _primary.ActiveCost <= _activePoint 
                        && _primary.SupplyCost <= _supply;
-            case 2:
+            case SkillSlotEnum.Secondary:
                 return IsSecondaryExist
                        && _secondary.ActiveCost <= _activePoint
                        && _secondary.SupplyCost <=  _supply;
-            case 3:
+            case SkillSlotEnum.Tertiary:
                 return IsTertiaryExist 
                        && _tertiary.ActiveCost <= _activePoint 
                        && _tertiary.SupplyCost <= _supply;
@@ -133,15 +133,15 @@ public abstract class Unit
         }
     }
     
-    public SkillSO GetSkill(int slot)
+    public SkillSO GetSkill(SkillSlotEnum slot)
     {
         switch (slot)
         {
-            case 1:
+            case SkillSlotEnum.Primary:
                 return _primary;
-            case 2:
+            case SkillSlotEnum.Secondary:
                 return _secondary;
-            case 3:
+            case SkillSlotEnum.Tertiary:
                 return _tertiary;
             default:
                 return null;
