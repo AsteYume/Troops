@@ -17,7 +17,9 @@ MonoBehaviour:
   _name: "\uAE30\uAD00\uCD1D \uAC70\uCE58"
   _supplyCost: 5
   _activeCost: 2
-  _utilityType: 2
+  _buttonIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _utilityType: 0
+  _targetType: 0
   _minRange: 1
   _maxRange: 6
   _radius: 0

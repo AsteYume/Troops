@@ -4,26 +4,33 @@ using UnityEngine.UI;
 
 public class SkillSelectUI : MonoBehaviour
 {
-    private GameObject _primaryObj;
-    private GameObject _secondaryObj;
-    private GameObject _tertiaryObj;
+    [SerializeField] private GameObject _primaryObj;
+    [SerializeField] private GameObject _secondaryObj;
+    [SerializeField] private GameObject _tertiaryObj;
+    [SerializeField] private Image _primaryIcon;
+    [SerializeField] private Image _secondaryIcon;
+    [SerializeField] private Image _tertiaryIcon;
     private SkillSO _primary;   
     private SkillSO _secondary;
     private SkillSO _tertiary;
-    private Image _primaryIcon;
-    private Image _secondaryIcon;
-    private Image _tertiaryIcon;
     
     // ============================================================
+
+    private void Start()
+    {
+        _primaryObj.SetActive(false);
+        _secondaryObj.SetActive(false);
+        _tertiaryObj.SetActive(false);
+    }
     
-    public void SetSkillUI(Unit unit)
+    public void OpenSkillUI(Unit unit)
     {
         SetPrimary(unit);
         SetSecondary(unit);
         SetTertiary(unit);
     }
 
-    public void ClearSkillUI()
+    public void CloseSkillUI()
     {
         ClearPrimary();
         ClearSecondary();

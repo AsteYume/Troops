@@ -17,6 +17,7 @@ MonoBehaviour:
   _name: "\uAE30\uAD00\uCD1D"
   _supplyCost: 20
   _activeCost: 4
+  _buttonIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   _weaponType: 2
   _attackType: 2
   _damage: 20

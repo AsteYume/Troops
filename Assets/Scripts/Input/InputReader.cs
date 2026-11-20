@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
@@ -15,11 +16,17 @@ public class InputReader : MonoBehaviour
     
     private const float RayLength = 50f;
     private const int TileLayer = 1 << 15;
+    private bool _isPointerOverUI;
     private Camera _cam;
     
     // ============================================================
     
     private void Awake() => Init();
+
+    private void Update()
+    {
+        _isPointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+    }
     
     private void OnEnable()
     {
@@ -58,12 +65,14 @@ public class InputReader : MonoBehaviour
 
     private void OnConfirm(InputAction.CallbackContext context)
     {
+        if (_isPointerOverUI) return;
         Debug.Log("Confirm");
         Confirm?.Invoke();
     }
 
     private void OnCancel(InputAction.CallbackContext context)
     {
+        if (_isPointerOverUI) return;
         Debug.Log("Cancel");
         Cancel?.Invoke();
     }

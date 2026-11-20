@@ -6,14 +6,17 @@ public class StateManager : MonoBehaviour
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private RangeViewer _rangeViewer;
     [SerializeField] private UnitMover _mover;
+    [SerializeField] private SkillSelectUI _skillSelectUI;
     
     private static StateManager _instance;
     private State _currentState;
     private StateContext _context;
+    
     private IdleState _idleState;
     private SelectMoveState _selectMoveState;
     private MoveState _moveState;
     private EnemySightState _enemySightState;
+    private SelectSkillState _selectSkillState;
     
     // ============================================================
     
@@ -27,10 +30,10 @@ public class StateManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null) _instance = FindFirstObjectByType<StateManager>();
-            if (_instance != null) return _instance;
-            GameObject go = new GameObject();
-            go.AddComponent<StateManager>();
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<StateManager>();
+            }
             return _instance;
         }
     }
@@ -89,7 +92,7 @@ public class StateManager : MonoBehaviour
             case StateEnum.EnemySight:
                 return _enemySightState;
             case StateEnum.SelectSkill:
-                
+                return _selectSkillState;
             default:
                 return _idleState; // 실행되면 안됨
         }
@@ -102,6 +105,7 @@ public class StateManager : MonoBehaviour
         _enemySightState = new EnemySightState(_rangeViewer, _inputReader, _context);
         _selectMoveState = new SelectMoveState(_inputReader, _rangeViewer, _context);
         _moveState = new MoveState(_mover, _rangeViewer, _context);
+        _selectSkillState = new SelectSkillState(_inputReader, _context, _skillSelectUI);
         _rangeViewer.SetStateContext(_context);
     }
     

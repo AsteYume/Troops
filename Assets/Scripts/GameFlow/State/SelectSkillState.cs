@@ -5,6 +5,7 @@ public class SelectSkillState : State
 {
     private InputReader _inputReader;
     private StateContext _stateContext;
+    private SkillSelectUI _skillSelectUI;
     
     // ============================================================
 
@@ -12,9 +13,11 @@ public class SelectSkillState : State
     
     // ============================================================
 
-    public SelectSkillState(InputReader inputReader, StateContext stateContext)
+    public SelectSkillState(InputReader inputReader, StateContext stateContext,  SkillSelectUI skillSelectUI)
     {
         _inputReader = inputReader;
+        _stateContext = stateContext;
+        _skillSelectUI = skillSelectUI;
     }
     
     // ============================================================
@@ -23,6 +26,7 @@ public class SelectSkillState : State
     {
         _inputReader.Confirm += OnConfirm;
         _inputReader.Cancel += OnCancel;
+        _skillSelectUI.OpenSkillUI(_stateContext.SelectUnit);
     }
 
     public override void OnExit()
@@ -62,6 +66,7 @@ public class SelectSkillState : State
         }
         _stateContext.SetVector(vec);
         _stateContext.SetUnit(unit);
+        _skillSelectUI.CloseSkillUI();
         StateEnd?.Invoke(nextState);
     }
 
