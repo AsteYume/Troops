@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class ConeAlgorithm
 {
-    public static List<Vector2Int> Cone(Vector2Int center, int range, DirectionEnum direction)
+    public static List<Vector2Int> Cone(Vector2Int center, int range, DirectionEnum direction, UnitTeam target)
     {
-        List<Vector2Int> radius = CheckRadius(range);
+        List<Vector2Int> radius = CheckRadius(range, target);
         List<Vector2Int> result = new List<Vector2Int>();
         int mapSize = (int)StageData.Instance.MapSize;
         foreach (Vector2Int value in radius)
@@ -34,14 +34,18 @@ public static class ConeAlgorithm
         return result;
     }
 
-    private static List<Vector2Int> CheckRadius(int range)
+    private static List<Vector2Int> CheckRadius(int range, UnitTeam target)
     {
         List<Vector2Int> tempTile = new List<Vector2Int>();
         for (int a = 1; a <= range; a++)
         {
             for (int b = -(a - 1); b <= (a - 1); b++)
             {
-                tempTile.Add(new Vector2Int(a,b));
+                Vector2Int pos = new Vector2Int(a, b);
+                if (target != UnitTeam.None 
+                    && StageData.Instance.UnitsPosition.TryGetValue(pos, out Unit unit)
+                    && unit.Team != target) continue;
+                tempTile.Add(pos);
             }
         }
         return tempTile;

@@ -152,4 +152,19 @@ public abstract class Unit
         }
     }
 
+    public UnitTeam GetEnemyTeam()
+    {
+        switch (_team)
+        {
+            case UnitTeam.None :
+                return UnitTeam.None;
+            case UnitTeam.Blue :
+                return UnitTeam.Red;
+            case UnitTeam.Red :
+                return UnitTeam.Blue;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
 }

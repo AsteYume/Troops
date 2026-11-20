@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class LocateAlgorithm
 {
-    public static List<Vector2Int> Bfs(int x, int z, int maxRange, int minRange)
+    public static List<Vector2Int> Bfs(int x, int z, int maxRange, int minRange, UnitTeam target)
     {
         Vector2Int vec = new Vector2Int(x, z);
-        return Bfs(vec, maxRange, minRange);
+        return Bfs(vec, maxRange, minRange, target);
     }
     
     public static Stack<Vector2Int> ReadNodePath(Node end)
@@ -25,17 +25,17 @@ public static class LocateAlgorithm
         return stack;
     }
 
-    private static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange)
+    private static List<Vector2Int> Bfs(Vector2Int center, int maxRange, int minRange, UnitTeam target)
     {
         List<Vector2Int> _maxTileArray = new();
         List<Vector2Int> _minTileArray = new();
-        _maxTileArray = GetTilesInRange(maxRange, center);
-        _minTileArray = GetTilesInRange(minRange, center);
+        _maxTileArray = GetTilesInRange(maxRange, center, target);
+        _minTileArray = GetTilesInRange(minRange, center, target);
         return _maxTileArray.Except(_minTileArray).ToList();
     }
     
     
-    private static List<Vector2Int> GetTilesInRange(int range, Vector2Int center)
+    private static List<Vector2Int> GetTilesInRange(int range, Vector2Int center, UnitTeam target)
     { 
         int _maxIndex = (int)StageData.Instance.MapSize - 1;
         List<Vector2Int> tiles = new List<Vector2Int>();
@@ -49,11 +49,13 @@ public static class LocateAlgorithm
             int minY = (center.y - cost >= 0) ? (center.y - cost) : 0;
             int maxY = (center.y + cost <= _maxIndex) ? (center.y + cost) : _maxIndex;
 
-            Debug.Log($"{minX},{maxX},{minY},{maxY}");
             for (int y = minY; y <= maxY; y++)
             {
-                Debug.Log($"{x},{y}");
-                tiles.Add(new Vector2Int(x, y));
+                Vector2Int pos = new Vector2Int(x, y);
+                if (target != UnitTeam.None 
+                    && StageData.Instance.UnitsPosition.TryGetValue(pos, out Unit unit)
+                    && unit.Team != target) continue;
+                tiles.Add(pos);
             }
         }
         return tiles;

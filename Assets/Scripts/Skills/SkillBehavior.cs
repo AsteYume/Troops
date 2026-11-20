@@ -98,7 +98,7 @@ public class SkillBehavior
         {
             case WeaponAttackType.SingleTarget:
             case WeaponAttackType.RadiusCircle:
-                return LocateAlgorithm.Bfs(unit.X, unit.Z, data.MinRange, data.MaxRange);
+                return LocateAlgorithm.Bfs(unit.X, unit.Z, data.MinRange, data.MaxRange,unit.GetEnemyTeam());
             case WeaponAttackType.RadiusCone:
                 break;
             default:

@@ -34,16 +34,16 @@ public class RangeViewer : MonoBehaviour
         return true;
     }
 
-    public void ConeView(Vector2Int vec, int range,DirectionEnum direction)
+    public void ConeView(Vector2Int vec, int range,DirectionEnum direction, UnitTeam target, bool isSkill)
     {
         ClearViewerObject();
-        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction),true);
+        PlaceViewer(ConeAlgorithm.Cone(vec,range,direction,target),isSkill);
     }
 
-    public void BfsView(Vector2Int vec, int max, int min)
+    public void BfsView(Vector2Int vec, int max, int min, UnitTeam target, bool isSkill)
     {
         ClearViewerObject();
-        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min),true);
+        PlaceViewer(LocateAlgorithm.Bfs(vec.x, vec.y, max, min,target),isSkill);
     }
 
     public bool CalculateMovement(Vector2Int vec, int range, out List<Vector2Int> list)
@@ -67,6 +67,7 @@ public class RangeViewer : MonoBehaviour
         }
         return true;
     }
+    
     
 
     private void PlaceViewer(List<Vector2Int> positions, bool isSkill)
