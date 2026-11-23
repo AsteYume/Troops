@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SkillCalcurator
+public static class SkillCalcurator
 {
-    public List<Vector2Int> GetSkillRange(SkillSO skill, Vector2Int center, Unit unit)
+    
+    public static List<Vector2Int> GetSkillRange(SkillSO skill, Vector2Int center, Unit unit)
     {
         switch (skill.SkillType)
         {
@@ -16,8 +17,47 @@ public class SkillCalcurator
                 throw new ArgumentOutOfRangeException();
         }
     }
+    
+    public static void CalSkillResult(SkillSO skill, Vector2Int center, Unit attacker)
+    {
+        switch (skill.SkillType)
+        {
+            case SkillsEnum.Attack :
+                CalWeaponResult((WeaponData)skill, center, attacker);
+                break;
+            case SkillsEnum.Utility :
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 
-    private List<Vector2Int> GetWeaponRange(WeaponData weapon)
+    private static void CalWeaponResult(WeaponData weapon, Vector2Int center, Unit attacker)
+    {
+        switch (weapon.AttackType)
+        {
+            case WeaponAttackType.SingleTarget :
+                SingleTargetResult(weapon, center, attacker);
+                break;
+            case WeaponAttackType.RadiusCone :
+                break;
+            case WeaponAttackType.RadiusCircle :
+                break;
+        }
+    }
+
+    private static void SingleTargetResult(WeaponData weapon, Vector2Int center, Unit unit)
+    {
+        if (StageData.Instance.UnitsPosition.ContainsKey(center))
+        {
+            WeaponBehavior.ProjectileAttack(weapon, center);
+        }
+        
+    }
+    
+    
+
+    private static List<Vector2Int> GetWeaponRange(WeaponData weapon)
     {
         switch (weapon.AttackType)
         {
@@ -31,7 +71,7 @@ public class SkillCalcurator
         return new List<Vector2Int>();
     }
 
-    private List<Vector2Int> GetUtilityRange(UtilityData utility, Vector2Int center, Unit unit)
+    private static List<Vector2Int> GetUtilityRange(UtilityData utility, Vector2Int center, Unit unit)
     {
         List<Vector2Int> result = new List<Vector2Int>();
         switch (utility.UtilityType)

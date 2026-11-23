@@ -78,6 +78,12 @@ public abstract class Unit
         _vector2 = point;
     }
 
+    public void SkillUsed(SkillSO skill)
+    {
+        _supply -= skill.SupplyCost;
+        _activePoint -= skill.ActiveCost;
+    }
+
     public void NextTurn()
     {
         _hasMoved = false;

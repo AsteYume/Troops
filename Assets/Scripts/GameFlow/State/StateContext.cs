@@ -14,8 +14,8 @@ public class StateContext
     
     public Stack<Vector2Int> TilesStack => _tilesStack;
     public List<Vector2Int> TilesInRange => _tilesInRange;
-    public Unit SelectUnit => _selectUnit;
     public Tile SelectTile => _selectTile;
+    public Unit SelectUnit => _selectUnit;
     public Vector2Int SelectVector => _selectVector;
     public SkillSO SelectSkill => _selectSkill;
     public WeaponData SelectWeapon => _selectWeapon;
@@ -69,6 +69,14 @@ public class StateContext
         SetList(null);
         SetStack(null);
         SetTile(null);
+    }
+
+    public void SkillResult()
+    {
+        SetVector(default);
+        SetSkill(null);
+        SetUtility(null);
+        SetWeapon(null);
     }
 
 }
