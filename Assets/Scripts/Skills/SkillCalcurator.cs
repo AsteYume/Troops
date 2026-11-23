@@ -10,10 +10,8 @@ public class SkillCalcurator
         {
             case SkillsEnum.Attack :
                 return GetWeaponRange((WeaponData)skill);
-                break;
             case SkillsEnum.Utility :
                 return GetUtilityRange((UtilityData)skill, center, unit);
-                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
