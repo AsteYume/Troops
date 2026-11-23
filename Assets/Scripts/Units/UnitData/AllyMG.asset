@@ -19,7 +19,7 @@ MonoBehaviour:
   _maxActivePoint: 6
   _activeRecover: 4
   _sight: 6
-  _moveRange: 3
+  _moveRange: 300
   _primary: {fileID: 11400000, guid: 1e98947a89aeeaf4ebc0ec224392e995, type: 2}
   _secondary: {fileID: 11400000, guid: 7e8ec5cdbb7d7ac438dc92b84b503ac6, type: 2}
   _tertiary: {fileID: 0}

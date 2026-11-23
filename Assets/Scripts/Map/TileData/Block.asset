@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapTileSO
   _tileType: 3
   _tilePrefab: {fileID: 1133217835956118863, guid: 0ac9ff1d696329e4fa23998d49b9ab32, type: 3}
-  _moveCost: 99
-  _sightCost: 99
+  _moveCost: 9999
+  _sightCost: 9999
   _armor: 4
   _canPass: 0
   _canPierce: 0

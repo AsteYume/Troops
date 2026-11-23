@@ -35,7 +35,7 @@ public class PriorityQueue<T>
     public T Dequeue()
     {
         if (data.Count == 0)
-            throw new InvalidOperationException("Queue is empty");
+            throw new InvalidOperationException("큐 비었음");
 
         int lastIndex = data.Count - 1; // 맨뒤
         T frontItem = data[0]; // 맨앞 원소를 저장해둠
@@ -69,7 +69,7 @@ public class PriorityQueue<T>
     public T Peek()
     {
         if (data.Count == 0)
-            throw new InvalidOperationException("Queue is empty");
+            throw new InvalidOperationException("큐 비었음");
         return data[0];
     }
 
