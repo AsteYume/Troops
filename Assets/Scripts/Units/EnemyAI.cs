@@ -1,16 +1,16 @@
 public class EnemyAI
 {
     private EnemyAIGroup _aiGroup;
-    private EnemyAIType _aiType;
+    private AIType _aiType;
     private int _targetX;
     private int _targetZ;
     
     public EnemyAIGroup AIGroup => _aiGroup;
-    public EnemyAIType AIType => _aiType;
+    public AIType AIType => _aiType;
     public int TargetX => _targetX;
     public int TargetZ => _targetZ;
 
-    public EnemyAI(EnemyAIGroup aiGroup, EnemyAIType aiType, int x, int z)
+    public EnemyAI(EnemyAIGroup aiGroup, AIType aiType, int x, int z)
     {
         _aiGroup = aiGroup;
         _aiType = aiType;

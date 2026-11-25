@@ -17,7 +17,6 @@ public class UnitDataProvider : MonoBehaviour
 
     private UnitTeam _ally = UnitTeam.Blue;
     private UnitTeam _enemy = UnitTeam.Red;
-    private int _count = 0;
 
 
     private void Awake()
@@ -95,8 +94,7 @@ public class UnitDataProvider : MonoBehaviour
             && int.TryParse(cells[2], out int startZ)  
             && Enum.TryParse(cells[3], out DirectionEnum direction))
         {
-            _count++;
-            AllyUnit unit = new AllyUnit(GetUnitData(unitType,_ally), direction, startX, startZ,_count);
+            AllyUnit unit = new AllyUnit(GetUnitData(unitType,_ally), direction, startX, startZ,AIType.Chase);
             StageData.Instance.AddAlly(unit);
         }
     }
@@ -113,8 +111,7 @@ public class UnitDataProvider : MonoBehaviour
             && Enum.TryParse(cells[3], out DirectionEnum direction)
             && Enum.TryParse(cells[4], out EnemyAIGroup aiGroup))
         {
-            _count++;
-            EnemyUnit unit = new EnemyUnit(GetUnitData(unitType,_enemy), direction, startX, startZ,_count, aiGroup);
+            EnemyUnit unit = new EnemyUnit(GetUnitData(unitType,_enemy), direction, startX, startZ, AIType.Hold, aiGroup);
             StageData.Instance.AddEnemy(unit);
         }
     }
@@ -125,7 +122,7 @@ public class UnitDataProvider : MonoBehaviour
         TrimCells(cells);
 
         if (Enum.TryParse(cells[0], out EnemyAIGroup aiGroup)
-            && Enum.TryParse(cells[1], out EnemyAIType aiType)  
+            && Enum.TryParse(cells[1], out AIType aiType)  
             && int.TryParse(cells[2], out int targetX)  
             && int.TryParse(cells[3], out int targetZ)) 
         {
@@ -160,7 +157,6 @@ public class UnitDataProvider : MonoBehaviour
 
     public void ClearData()
     {
-        _count = 0;
         _allyData = null;
         _enemyData = null;
         _aiData = null;

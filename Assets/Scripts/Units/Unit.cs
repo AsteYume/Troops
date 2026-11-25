@@ -17,6 +17,7 @@ public abstract class Unit
     private Vector2Int _vector2;
     private bool _hasMoved;
     private bool _isMounted;
+    private AIType _ai;
     
     private GameObject _object;
     
@@ -42,6 +43,7 @@ public abstract class Unit
     public GameObject Object => _object;
     public bool HasMoved => _hasMoved;
     public bool IsMounted => _isMounted;
+    public AIType AI => _ai;
     
     public bool IsPrimaryExist => _primary != null;
     public bool IsSecondaryExist => _secondary != null;
@@ -93,7 +95,7 @@ public abstract class Unit
     }
 
 
-    protected Unit(UnitDataSo unitData, DirectionEnum direction, int x, int z, int number)
+    protected Unit(UnitDataSo unitData, DirectionEnum direction, int x, int z, AIType ai)
     {
         _unitType = unitData.UnitType;
         _unitName = unitData.UnitName;
@@ -107,6 +109,7 @@ public abstract class Unit
         _secondary = unitData.Secondary;
         _tertiary = unitData.Tertiary;
         _vector2 = new Vector2Int(x, z);
+        _ai = ai;
 
         _health = _maxHealth;
         _supply = _maxSupply;

@@ -1,4 +1,4 @@
-public enum EnemyAIType
+public enum AIType
 {
     None = -1,
     Hold,
