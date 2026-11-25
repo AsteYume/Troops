@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StateManager : MonoBehaviour
 {
@@ -7,10 +8,12 @@ public class StateManager : MonoBehaviour
     [SerializeField] private RangeViewer _rangeViewer;
     [SerializeField] private UnitMover _mover;
     [SerializeField] private SkillSelectUI _skillSelectUI;
+    [SerializeField] private Button _endButton;
     
     private static StateManager _instance;
     private State _currentState;
     private StateContext _context;
+    private PlayerPhase _playerPhase;
     
     private IdleState _idleState;
     private SelectMoveState _selectMoveState;
@@ -58,27 +61,67 @@ public class StateManager : MonoBehaviour
         SetSingleTon();
         Init();
     }
-    
+
+    private void OnDestroy()
+    {
+        OnStateStart = null;
+    }
+
+
     // ============================================================
     
-    public void NextState() // forTest
+    public void SetPhaseClass(PlayerPhase playerPhase)
     {
+        _playerPhase = playerPhase;
+        _playerPhase.PhaseStart += OnPhaseStart;
+    }
+    
+    public void PhaseEnd()
+    {
+        EndState();
+        _rangeViewer.ClearViewerObject();
+        _context.ClearAll();
+        _playerPhase.PlayerPhaseEnd();
+    }
+    
+    // ============================================================
+
+    private void SetEndButton(bool value)
+    {
+        _endButton.gameObject.SetActive(value);
+    }
+
+    private void OnPhaseStart()
+    {
+        StageData.Instance.NextTurn();
         EnterState(StateEnum.Idle);
+    }
+
+    private void OnStageEnd()
+    {
+        _playerPhase.PhaseStart -= OnPhaseStart;
+        _playerPhase = null;
     }
     
     private void ChangeState(StateEnum newState)
     {
-        _currentState.StateEnd -= ChangeState;
-        _currentState.OnExit();
+        SetEndButton(false);
+        EndState();
         EnterState(newState);
     }
 
-    private void EnterState(StateEnum newStateEnum)
+    private void EndState()
     {
+        _currentState.StateEnd -= ChangeState;
+        _currentState.OnExit();
+    }
+
+    private void EnterState(StateEnum newStateEnum)
+    { 
+        SetEndButton(newStateEnum == StateEnum.Idle);
         _currentState = GetState(newStateEnum);
         _currentState.StateEnd += ChangeState;
         _currentState.OnEnter();
-        Debug.Log($"{CurrentState}");
         OnStateStart?.Invoke(newStateEnum);
     }
     

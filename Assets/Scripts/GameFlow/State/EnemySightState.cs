@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySightState : State
 {
+    private const StateEnum Type = StateEnum.EnemySight;
     private RangeViewer _rangeViewer;
     private InputReader _inputReader;
     private StateContext _stateContext;
@@ -18,6 +19,7 @@ public class EnemySightState : State
     
     // ============================================================
     
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     
     // ============================================================

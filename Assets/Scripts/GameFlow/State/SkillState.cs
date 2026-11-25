@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SkillState : State
 {
+    private const StateEnum Type = StateEnum.Skill;
     StateContext _context;
     RangeViewer _viewer;
 
@@ -12,6 +13,7 @@ public class SkillState : State
         _viewer = viewer;
     }
     
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     public override void OnEnter()
     {

@@ -89,6 +89,7 @@ public abstract class Unit
     {
         _hasMoved = false;
         _activePoint += _activeRecover;
+        if (_activePoint >= _maxActivePoint) _activePoint = _maxActivePoint;
     }
 
 

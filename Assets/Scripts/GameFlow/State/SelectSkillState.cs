@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectSkillState : State
 {
+    private const StateEnum Type = StateEnum.SelectSkill;
     private InputReader _inputReader;
     private StateContext _stateContext;
     private SkillSelectUI _skillSelectUI;
@@ -11,6 +12,7 @@ public class SelectSkillState : State
     
     // ============================================================
 
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     
     // ============================================================

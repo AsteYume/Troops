@@ -14,8 +14,11 @@ public class TrackerMover : MonoBehaviour
     private void Update() => MoveTracker();
 
     private void OnEnable() => StateManager.Instance.OnStateStart += OnStateChange;
-    
-    private void OnDisable() => StateManager.Instance.OnStateStart -= OnStateChange;
+
+    private void OnDisable()
+    {
+        if (StateManager.Instance != null) StateManager.Instance.OnStateStart -= OnStateChange;
+    }
 
     // ============================================================
     

@@ -20,7 +20,7 @@ MonoBehaviour:
   _buttonIcon: {fileID: 21300000, guid: 10931b1f7df380746bc34408f36bde02, type: 3}
   _weaponType: 1
   _attackType: 0
-  _damage: 100
+  _damage: 20
   _shots: 3
   _pierce: 0
   _minRange: 1

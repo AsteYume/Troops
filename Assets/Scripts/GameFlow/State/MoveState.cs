@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveState : State
 {
+    private const StateEnum Type = StateEnum.Move;
     private StateContext _context;
     private UnitMover _mover;
     private RangeViewer _rangeViewer;
@@ -19,6 +20,7 @@ public class MoveState : State
     
     // ============================================================
     
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     
     // ============================================================

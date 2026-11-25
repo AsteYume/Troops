@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class PhaseManager : MonoBehaviour
 {
+    [SerializeField] StateManager _stateManager;
+    
     private int _stageNumber;
     private Phase _currentPhase;
     private PhaseEnum _currentPhaseEnum;
     private PreparePhase _preparePhase;
-    // private PlayerPhase _player;
-    // private EnemyPhase _enemy;
-    // private ResultPhase _result;
+    private PlayerPhase _playerPhase;
+    // private EnemyPhase _enemyPhase;
+    // private ResultPhase _resultPhase;
     
 
     // ============================================================
@@ -27,6 +29,10 @@ public class PhaseManager : MonoBehaviour
     {
         PhaseEnd = null;
         PhaseStart = null;
+    }
+
+    private void Update()
+    {
     }
 
     // ============================================================
@@ -47,16 +53,16 @@ public class PhaseManager : MonoBehaviour
 
     private void EndPhase()
     {
-        PhaseEnd?.Invoke();
         _currentPhase.PhaseChange -= OnChange;
+        PhaseEnd?.Invoke();
     }
     
     private void StartPhase(PhaseEnum phase)
     {
         _currentPhaseEnum = phase;
         _currentPhase = GetPhase(phase);
-        PhaseStart?.Invoke(_currentPhaseEnum);
         _currentPhase.PhaseChange += OnChange;
+        PhaseStart?.Invoke(_currentPhaseEnum);
     }
 
     private Phase GetPhase(PhaseEnum phase)
@@ -65,8 +71,9 @@ public class PhaseManager : MonoBehaviour
         {
             case PhaseEnum.Prepare:
                 return _preparePhase;
-            default:
             case PhaseEnum.Player:
+                return _playerPhase;
+            default:
             case PhaseEnum.Enemy:
             case PhaseEnum.Result:
             case PhaseEnum.None: 
@@ -77,6 +84,8 @@ public class PhaseManager : MonoBehaviour
     private void Init()
     {
         _preparePhase = new PreparePhase(this);
+        _playerPhase = new PlayerPhase(this);
+        _stateManager.SetPhaseClass(_playerPhase);
     }
 
 

@@ -62,16 +62,10 @@ public class StageData
         _mapSize = (MapSizeEnum)mapSize;
     }
 
-    public void SetMapSize(MapSizeEnum mapSize)
-    {
-        _mapSize = mapSize;
-    }
-
     public bool TryGetUnit(int x, int z, out Unit unit)
     {
         return _unitsPosition.TryGetValue(new Vector2Int(x,z), out unit);
     }
-    
     
     public void ClearStageData()
     {
@@ -113,6 +107,26 @@ public class StageData
                 return;
         }
     }
+    
+    public void SetStage(int stageNumber)
+    {
+        _stageNumber = stageNumber;
+    }
+
+    public void AddCount()
+    {
+        _counts++;
+    }
+
+    public void NextTurn()
+    {
+        foreach (var allyUnit in _allyUnits)
+        {
+            allyUnit.NextTurn();
+        }
+    }
+    
+    // ============================================================
 
     private void RemoveAlly(AllyUnit allyUnit)
     {
@@ -124,15 +138,5 @@ public class StageData
     {
         _unitsPosition.Remove(enemyUnit.Vector2);
         _enemyUnits.Remove(enemyUnit);
-    }
-    
-    public void SetStage(int stageNumber)
-    {
-        _stageNumber = stageNumber;
-    }
-
-    public void AddCount()
-    {
-        _counts++;
     }
 }

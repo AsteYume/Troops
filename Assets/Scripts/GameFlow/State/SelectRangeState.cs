@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectRangeState : State
 {
+    private const StateEnum Type = StateEnum.SelectRange;
     private InputReader _inputReader;
     private RangeViewer _rangeViewer;
     private StateContext _stateContext;
@@ -19,6 +20,7 @@ public class SelectRangeState : State
     
     // ============================================================
     
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     
     // ============================================================

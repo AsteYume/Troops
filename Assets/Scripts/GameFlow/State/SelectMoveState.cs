@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SelectMoveState : State
 {
+    private const StateEnum Type = StateEnum.SelectMove;
     private InputReader _inputReader;
     private RangeViewer _rangeViewer;
     private StateContext _stateContext;
@@ -18,6 +19,7 @@ public class SelectMoveState : State
     
     // ============================================================
     
+    public override StateEnum StateType => Type;
     public override event Action<StateEnum> StateEnd;
     
     // ============================================================
@@ -48,7 +50,6 @@ public class SelectMoveState : State
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
         if (_stateContext.SelectVector == vec) // 클릭한곳이 자기 자신 위치면 - 스킬준비
         {
-            Debug.Log($"스킬 준비 진입");
             ClearView();
             StateEnd?.Invoke(StateEnum.SelectSkill);
             return;

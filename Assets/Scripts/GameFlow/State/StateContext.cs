@@ -62,6 +62,13 @@ public class StateContext
     {
         _selectTile = tile;
     }
+
+    public void ClearAll()
+    {
+        ClearRange();
+        SkillResult();
+        SetUnit(null);
+    }
     
     
     public void ClearRange()
@@ -73,7 +80,7 @@ public class StateContext
 
     public void SkillResult()
     {
-        SetVector(default);
+        SetVector(new Vector2Int(-1,-1));
         SetSkill(null);
         SetUtility(null);
         SetWeapon(null);

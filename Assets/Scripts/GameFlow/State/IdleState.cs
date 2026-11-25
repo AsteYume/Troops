@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    private const StateEnum Type =  StateEnum.Idle;
     private InputReader _inputReader;
     private StateContext _stateContext;
     private Vector2Int _vec;
@@ -11,7 +12,8 @@ public class IdleState : State
     // ============================================================
 
     public override event Action<StateEnum> StateEnd;
-    
+    public override StateEnum StateType => Type;
+
     // ============================================================
 
     public IdleState (InputReader inputReader, StateContext stateContext)
