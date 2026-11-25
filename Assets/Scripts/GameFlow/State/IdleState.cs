@@ -5,6 +5,8 @@ public class IdleState : State
 {
     private InputReader _inputReader;
     private StateContext _stateContext;
+    private Vector2Int _vec;
+    private Unit _unit;
     
     // ============================================================
 
@@ -23,26 +25,31 @@ public class IdleState : State
     public override void OnEnter()
     {
         Debug.Log("Entering IdleState");
-        _inputReader.Confirm += OnOnConfirm;
+        _inputReader.Confirm += OnConfirm;
     }
 
     public override void OnExit()
     {
-        _inputReader.Confirm -= OnOnConfirm;
+        if (_vec.x != -1) _stateContext.SetVector(_vec);
+        if (_unit != null) _stateContext.SetUnit(_unit);
+        ClearData();
+        _inputReader.Confirm -= OnConfirm;
     }
     
     // ============================================================
+    
 
-
-    private void OnOnConfirm()
+    private void OnConfirm()
     {
         if (!_inputReader.TryGetVector(out Vector2Int vec)) return;
-        StateEnum nextState;
         if (!StageData.Instance.TryGetUnit(vec.x, vec.y, out var unit)) return;
+        if (unit.Team == UnitTeam.Blue && !unit.CanAction) return;
+        StateEnum nextState;
+        _vec = vec;
+        _unit = unit;
         switch (unit.Team)
         {
             case UnitTeam.Blue:
-                if (!unit.CanAction) return;
                 nextState = unit.HasMoved ? StateEnum.SelectSkill : StateEnum.SelectMove;
                 break;
             case UnitTeam.Red:
@@ -51,9 +58,13 @@ public class IdleState : State
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        _stateContext.SetVector(vec);
-        _stateContext.SetUnit(unit);
         StateEnd?.Invoke(nextState);
+    }
+
+    private void ClearData()
+    {
+        _vec = new Vector2Int(-1, -1);
+        _unit = null;
     }
     
 }

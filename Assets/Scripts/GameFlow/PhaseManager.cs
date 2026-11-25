@@ -1,14 +1,14 @@
 using System;
+using System.Data;
+using Unity.AppUI.UI;
 using UnityEngine;
 
 public class PhaseManager : MonoBehaviour
 {
-    private static PhaseManager _instance;
     private int _stageNumber;
-    static PhaseEnum _currentPhase = PhaseEnum.None;
-
-    private PreparePhase _prepare;
-    // private StartPhase _start;
+    private Phase _currentPhase;
+    private PhaseEnum _currentPhaseEnum;
+    private PreparePhase _preparePhase;
     // private PlayerPhase _player;
     // private EnemyPhase _enemy;
     // private ResultPhase _result;
@@ -16,109 +16,68 @@ public class PhaseManager : MonoBehaviour
 
     // ============================================================
     public event Action<PhaseEnum> PhaseStart;
+    public event Action PhaseEnd;
     public int StageNumber => _stageNumber;
 
     // ============================================================
 
-    public static PhaseManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindFirstObjectByType<PhaseManager>();
-            }
-            if (_instance == null)
-            {
-                GameObject go = new GameObject();
-                go.AddComponent<PhaseManager>();
-            }
-            return _instance;
-        }
-    }
-    
-    // ============================================================
+    private void Awake() => Init();
 
-    private void Awake()
+    private void OnDestroy()
     {
-        SetSingleTon();
-        Init();
+        PhaseEnd = null;
+        PhaseStart = null;
     }
 
     // ============================================================
-    
-    public void GameStart(int stage)
-    {
-        StageData.Instance.ClearStageData();
-        StageData.Instance.SetStage(stage);
-        StageStart(stage);
-    }
-    
-    public void GameEnd()
-    {
-        // 게임 결과 검사기에서 유닛 제거마다 조건 확인
-        // 페이즈를 Player / Enemy에서 Result 페이즈로 이동
-        
-    }
 
-    public void PhaseChange(PhaseEnum phase)
+    public void OnStart(int stage)
     {
-        _currentPhase = CheckNextPhase(phase);
-        StartNextPhase();
-    }
-    
-    public void StartNextPhase()
-    {
-        _currentPhase = CheckNextPhase(_currentPhase);
-        PhaseStart?.Invoke(_currentPhase);
+        _stageNumber = stage;
+        StartPhase(PhaseEnum.Prepare);
     }
     
     // ============================================================
     
-    private void StageStart(int stage)
+    private void OnChange(PhaseEnum phase)
     {
-        SetValue(stage);
-        StartNextPhase();
+        EndPhase();
+        StartPhase(phase);
     }
 
-    private PhaseEnum CheckNextPhase(PhaseEnum phase)
+    private void EndPhase()
+    {
+        PhaseEnd?.Invoke();
+        _currentPhase.PhaseChange -= OnChange;
+    }
+    
+    private void StartPhase(PhaseEnum phase)
+    {
+        _currentPhaseEnum = phase;
+        _currentPhase = GetPhase(phase);
+        PhaseStart?.Invoke(_currentPhaseEnum);
+        _currentPhase.PhaseChange += OnChange;
+    }
+
+    private Phase GetPhase(PhaseEnum phase)
     {
         switch (phase)
         {
-            case PhaseEnum.None:
-                return PhaseEnum.Prepare;
             case PhaseEnum.Prepare:
-                return PhaseEnum.Start;
-            case PhaseEnum.Start:
-                return PhaseEnum.Player;
+                return _preparePhase;
+            default:
             case PhaseEnum.Player:
-                return PhaseEnum.Enemy;
             case PhaseEnum.Enemy:
-                return PhaseEnum.Player;
             case PhaseEnum.Result:
-                return PhaseEnum.None;
+            case PhaseEnum.None: 
+                throw new ArgumentOutOfRangeException();
         }
-        return PhaseEnum.None;
-    }
-    
-    private void Init()
-    {
-        _prepare = new PreparePhase();
     }
 
-    private void SetValue(int stage)
+    private void Init()
     {
-        _stageNumber = stage;
-        _currentPhase = PhaseEnum.None;
+        _preparePhase = new PreparePhase(this);
     }
-    
-    private void SetSingleTon()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        _instance = this;
-    }
+
+
 }

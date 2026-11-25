@@ -15,7 +15,6 @@ public abstract class Unit
     private SkillSO _secondary;
     private SkillSO _tertiary;
     private Vector2Int _vector2;
-    private int _unitNumber;
     private bool _hasMoved;
     private bool _isMounted;
     
@@ -27,7 +26,6 @@ public abstract class Unit
     private DirectionEnum _direction;
     protected UnitTeam _team;
 
-    public event Action OnDead;
     
     public UnitTypeEnum UnitType => _unitType;
     public string UnitName => _unitName;
@@ -68,8 +66,11 @@ public abstract class Unit
 
     public void TakeDamage(int damage)
     {
+        UnityEngine.Object.Destroy(_object);
         _health -= damage;
-        if (_health <= 0) OnDead?.Invoke();
+        if (_health > 0) return;
+        Debug.Log($"유닛 제거됨");
+        StageData.Instance.RemoveUnit(this);
     }
 
     public void MoveDone(Vector2Int point)
@@ -105,7 +106,6 @@ public abstract class Unit
         _secondary = unitData.Secondary;
         _tertiary = unitData.Tertiary;
         _vector2 = new Vector2Int(x, z);
-        _unitNumber =  number;
 
         _health = _maxHealth;
         _supply = _maxSupply;

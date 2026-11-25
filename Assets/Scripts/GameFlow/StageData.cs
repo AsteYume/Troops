@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StageData
 {
-    public static StageData _instance;
+    private static StageData _instance;
     public static StageData Instance
     {
         get
@@ -87,29 +87,43 @@ public class StageData
     {
         _enemyAis.Add(ai.AIGroup, ai);
     }
-
-    public void RemoveAlly(AllyUnit allyUnit)
-    {
-        _unitsPosition.Remove(allyUnit.Vector2);
-        _allyUnits.Remove(allyUnit);
-    }
-
+    
     public void AddAlly(AllyUnit allyUnit)
     {
         _allyUnits.Add(allyUnit);
         _unitsPosition.Add(allyUnit.Vector2, allyUnit);
     }
-
-    public void RemoveEnemy(EnemyUnit enemyUnit)
-    {
-        _unitsPosition.Remove(enemyUnit.Vector2);
-        _enemyUnits.Remove(enemyUnit);
-    }
-
+    
     public void AddEnemy(EnemyUnit enemyUnit)
     {
         _enemyUnits.Add(enemyUnit);
         _unitsPosition.Add(enemyUnit.Vector2, enemyUnit);
+    }
+
+    public void RemoveUnit(Unit unit)
+    {
+        
+        switch (unit.Team)
+        {
+            case UnitTeam.Blue:
+                RemoveAlly((AllyUnit)unit);
+                return;
+            case UnitTeam.Red:
+                RemoveEnemy((EnemyUnit)unit);
+                return;
+        }
+    }
+
+    private void RemoveAlly(AllyUnit allyUnit)
+    {
+        _unitsPosition.Remove(allyUnit.Vector2);
+        _allyUnits.Remove(allyUnit);
+    }
+    
+    private void RemoveEnemy(EnemyUnit enemyUnit)
+    {
+        _unitsPosition.Remove(enemyUnit.Vector2);
+        _enemyUnits.Remove(enemyUnit);
     }
     
     public void SetStage(int stageNumber)

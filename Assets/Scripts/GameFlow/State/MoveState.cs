@@ -40,6 +40,7 @@ public class MoveState : State
 
     public override void OnExit()
     {
+        ClearData();
     }
     
     // ============================================================
@@ -49,7 +50,8 @@ public class MoveState : State
         if (!_isMoving) return;
         if (HasReached && _context.TilesStack.Count == 0)
         {
-            MoveDone();
+            if (_context.SelectUnit.CanAction) NextIsSkill();
+            else NextIsIdle();
             return;
         }
         if (HasReached) SetNextPoint();
@@ -74,14 +76,12 @@ public class MoveState : State
         _nextPoint = new Vector3(next.x, _context.SelectUnit.Object.transform.position.y, next.y);
     }
 
-    private void MoveDone()
+    private void ClearData()
     {
         _rangeViewer.ClearViewerObject();
         _context.ClearRange();
         _context.SelectUnit.MoveDone(_goal);
         _isMoving = false; 
-        if (_context.SelectUnit.CanAction) NextIsSkill();
-        else NextIsIdle();
     }
 
     private void NextIsIdle()

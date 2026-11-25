@@ -1,20 +1,25 @@
+using System;
+
 public abstract class Phase
 {
-    protected PhaseManager Manager = PhaseManager.Instance;
-    protected int StageNumber => Manager.StageNumber;
+    private PhaseManager _manager;
     
     // ============================================================
     public abstract PhaseEnum PhaseType { get; }
+    protected PhaseManager Manager => _manager;
     
     // ============================================================
-    public abstract void OnPhaseStart(PhaseEnum phaseType);
-    public abstract void OnPhaseEnd(PhaseEnum phaseType);
+    public abstract event Action<PhaseEnum> PhaseChange;
+    protected abstract void OnStart(PhaseEnum phaseType);
+    protected abstract void OnEnd();
     
     // ============================================================
-
-    protected Phase()
+    
+    public Phase (PhaseManager manager)
     {
-        Manager.PhaseStart += OnPhaseStart;
+        _manager = manager;
+        _manager.PhaseStart += OnStart;
+        _manager.PhaseEnd += OnEnd;
     }
 
 }
