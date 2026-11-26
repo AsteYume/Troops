@@ -48,6 +48,13 @@ public abstract class Unit
     public bool IsPrimaryExist => _primary != null;
     public bool IsSecondaryExist => _secondary != null;
     public bool IsTertiaryExist => _tertiary != null;
+
+    public bool CanUsePrimary => IsPrimaryExist && Primary.SupplyCost >= _supply && 
+                                 Primary.ActiveCost >= _activePoint && Primary.SkillType == SkillsEnum.Attack;
+    public bool CanUseSecondary => IsSecondaryExist && Secondary.SupplyCost >= _supply && 
+                                   Secondary.ActiveCost >= _activePoint && Secondary.SkillType == SkillsEnum.Attack;
+    public bool CanUseTertiary => IsTertiaryExist && Tertiary.SupplyCost >= _supply && 
+                                  Tertiary.ActiveCost >= _activePoint && Tertiary.SkillType == SkillsEnum.Attack;
     
     
 
